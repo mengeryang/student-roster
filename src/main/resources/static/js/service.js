@@ -56,8 +56,8 @@ $(document).ready(function(){
                 sched['weekday'] = $("select.weekday").find(":selected").val();
                 sched['interval'] = "";
                 del_sched_list.push(sched);
+                $this.remove();
             }
-            $this.remove();
         });
 
         $.ajax({
@@ -67,7 +67,7 @@ $(document).ready(function(){
             dataType:"json",
             data: JSON.stringify(del_sched_list),
             success: function (data) {
-                alert(data.msg);
+                $.notify(data.msg, "success");
             },
             error: function (e) {
                 alert(e.toString());
