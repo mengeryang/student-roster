@@ -1,0 +1,17 @@
+body {
+    background-color: #eee;
+}
+
+.pre-scrollable {
+    max-height: 150px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+td, th {
+    text-align: center;
+}
+
+#home-search {
+    margin-right: 20px;
+}

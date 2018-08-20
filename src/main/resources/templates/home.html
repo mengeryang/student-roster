@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/bootstrap-datepicker3.standalone.min.css" th:href="@{/css/bootstrap-datepicker3.standalone.min.css}"/>
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/navbar-fixed-top.css" th:href="@{/css/navbar-fixed-top.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css"/>
+
+
+</head>
+
+<body>
+
+<div th:include="navbar:: fixed-navbar"></div>
+
+<div class="container main-board">
+    <div class="panel-heading text-center">
+        <div class="h2">Roster Table</div>
+        <hr/>
+    </div>
+    <form action="#" th:action="@{/home/search}" method="post">
+        <div class="row">
+            <div class="col-lg-3 home-select">
+                <select class="form-control pre-scrollable" title="department" th:field="${selInfo.dptId}">
+                    <option th:selected="selected" th:value="'-1'">select-department</option>
+                    <option th:each="dpt: ${dptlist}" th:value="${dpt.id}" th:text="${dpt.name}">dpt</option>
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group date" id="homedatepicker" data-provide="datepicker">
+                    <input type="text" class="form-control" th:field="${selInfo.date}" placeholder="dd/mm/yyyy"/>
+                    <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-th"></i>
+                </span>
+                </div>
+            </div>
+            <div class="col-lg-1 pull-right" id="home-search">
+                    <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+            <!--<div class="col-lg-4">-->
+            <!--<div class="col-lg-4 home-select">-->
+            <!--<select class="form-control pre-scrollable" title="year">-->
+            <!--<option th:selected="selected">year</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--<div class="col-lg-4 home-select">-->
+            <!--<select class="form-control pre-scrollable" title="month">-->
+            <!--<option th:selected="selected">month</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--<div class="col-lg-4 home-select">-->
+            <!--<select class="form-control pre-scrollable" title="day">-->
+            <!--<option th:selected="selected">day</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="btn-group">-->
+            <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Department <span class="caret"></span></button>-->
+            <!--<ul class="dropdown-menu pre-scrollable" role="menu" id="dpScroll">-->
+            <!--<li th:each="dpt: ${dptlist}"><a th:text="${dpt.department}">department</a></li>-->
+            <!--</ul>-->
+            <!--</div>-->
+        </div>
+    </form>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-bordered" id="roster-table">
+                <thead>
+                <tr class="bg-info">
+                    <th class="col-lg-1">ID</th>
+                    <th class="col-lg-2">Name</th>
+                    <th class="col-lg-2">Department</th>
+                    <th>Schedule</th>
+                </tr>
+                </thead>
+                <tbody class="context" th:if="${not #lists.isEmpty(schedList)}">
+                <tr th:each="record: ${schedList}">
+                    <td th:text="${record.stuId}"></td>
+                    <td th:text="${record.stuName}"></td>
+                    <td th:text="${record.dptName}"></td>
+                    <td th:text="${record.getTimes()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+<script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<!--<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>-->
+<script src="../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+<script src="../static/js/home.js" th:src="@{/js/home.js}"></script>
+</body>
+</html>

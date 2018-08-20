@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/service.css" th:href="@{/css/service.css}" rel="stylesheet" type="text/css"/>
+
+    <!--<link href="../static/css/navbar-fixed-top.css" th:href="@{/css/navbar-fixed-top.css}" rel="stylesheet"/>-->
+
+</head>
+
+<body>
+
+<div th:include="navbar:: fixed-navbar"></div>
+
+<div class="container">
+    <div align="ce">
+        <div class="form-area col-lg-4 col-lg-offset-4 form-new-staff-info">
+            <form action="#" th:action="@{/service/add-student}" th:object="${stuRegInfo}" method="post" role="form">
+                <br style="clear:both"/>
+                <h3 style="margin-bottom: 25px; text-align: center;">Student Info</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" th:field="*{stuId}" placeholder="Student ID" required="required"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" th:field="*{stuName}" placeholder="Student Name" required="required"/>
+                </div>
+                <div class="form-group">
+                    <select class="form-control pre-scrollable" th:field="*{dptId}">
+                        <option th:selected="selected" th:value="'-1'">select-department</option>
+                        <option th:each="dpt: ${dptlist}" th:value="${dpt.id}" th:text="${dpt.name}">dpt</option>
+                    </select>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<textarea class="form-control" placeholder="Message" maxlength="140" rows="7" th:field="*{raw_schedule}"></textarea>-->
+                <!--</div>-->
+
+                <button type="submit" class="btn btn-primary col-lg-4 col-lg-offset-4"> Submit </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
