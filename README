@@ -1,0 +1,19 @@
+1. Start Application:
+    1.1 cd to the directory contains sample-project-0.0.1-SNAPSHOT.jar.
+    1.2 type 'java -jar sample-project-0.0.1-SNAPSHOT.jar' in command line.
+
+2. Enter System:
+    2.1 Type 'localhost:8080/home/' in browser to enter system.
+
+3. navbar:
+    3.1 Home:
+        Home page button.
+    3.2 Settings:
+        Not implement yet.
+    3.3 Service:
+        3.3.1 add students:
+              Register new student to system.
+        3.3.2 add free time:
+              Set student available time.
+        3.3.3 add schedule:
+              Add new schedule.(you can only specify one time section).

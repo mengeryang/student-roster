@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class StudentDaoImpl implements StudentDao {
+public class  StudentDaoImpl implements StudentDao {
     private JdbcTemplate jdbcTemplate;
 
     final static private String INSERT_SQL =
