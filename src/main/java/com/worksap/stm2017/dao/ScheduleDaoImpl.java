@@ -47,6 +47,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
                     });
         } catch (DataAccessException e) {
             //TODO
+            System.out.println("ScheduleDaoImpl.java: insert: " + e.toString());
         }
     }
 

@@ -19,3 +19,6 @@
               Add new schedule.(you can only specify one time section, the
               time format is hh1:mm1/hh2:mm2, means time section from
               hh1:mm1 to hh2:mm2)
+        3.3.4 delete schedule:
+              Choose department and weekdays, list the current schedule,
+              choose schedule and click 'delete' to delete.

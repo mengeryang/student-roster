@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    // $('#delschd-datepicker').datepicker({
+    //     format: "dd/mm/yyyy",
+    //     calendarWeeks: true,
+    //     todayHighlight: true
+    // });
+
     $("#add-schedule-filter-button").click(function () {
         var dpt = $("#add-schedule-dpt");
         var weekday = $("#add-schedule-weekday");
@@ -27,19 +33,46 @@ $(document).ready(function(){
             }
         });
 
-        dpt.attr("disabled", true);
-        weekday.attr("disabled", true);
-        worktime.prop("readonly", true);
-
     });
 
-    $("#add-schedule-reset-button").click(function () {
-        var dpt = $("#add-schedule-dpt");
-        var weekday = $("#add-schedule-weekday");
-        var worktime =  $("#add-schedule-worktime");
-        dpt.attr("disabled", false);
-        weekday.attr("disabled", false);
-        worktime.prop("readonly", false);
+    
+    $(".filter-info").change(function () {
+        $("#add-schedule-stuList").empty();
+    });
+
+    $("#delete-schedule-delete").click(function () {
+        var del_sched_list = [];
+
+        if(!confirm("Delete selected schedules?"))
+            return;
+
+        $("tr.sched-row").each(function () {
+            var $this = $(this);
+            var v = $this.find("input.checkbox");
+            var sched = {};
+            if(v.prop('checked')) {
+                sched['stuId'] = $this.find("td.stu-id").text();
+                sched['dptId'] = $this.find("td.dpt-id").text();
+                sched['weekday'] = $("select.weekday").find(":selected").val();
+                sched['interval'] = "";
+                del_sched_list.push(sched);
+            }
+            $this.remove();
+        });
+
+        $.ajax({
+            url: "/service/delete-schedule",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(del_sched_list),
+            success: function (data) {
+                alert(data.msg);
+            },
+            error: function (e) {
+                alert(e.toString());
+            }
+        });
     })
 
 });

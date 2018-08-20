@@ -69,4 +69,12 @@ public class DetailInfo {
     public void setTimes(String times) {
         this.times = times;
     }
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
 }

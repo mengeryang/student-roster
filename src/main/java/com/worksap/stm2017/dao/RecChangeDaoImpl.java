@@ -19,7 +19,7 @@ public class RecChangeDaoImpl implements RecChangeDao {
             "DELETE FROM CHANGE_REC WHERE dpt_id=? and rec_date=?";
 
     final static private String FIND_SQL =
-            "SELECT stu_id,dpt_id,weekday,times WHERE dpt_id=? and rec_date=?";
+            "SELECT stu_id,dpt_id,weekday,times FROM CHANGE_REC WHERE dpt_id=? and rec_date=?";
 
     public RecChangeDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

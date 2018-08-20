@@ -3,10 +3,14 @@
     /*padding-right: 250px;*/
 }
 
-.row {
-    margin-bottom: 20px;
-}
-
 .btn-update-schedule {
     margin-right: 10px;
+}
+
+.btn {
+    margin-bottom: 10px;
+}
+
+td, th {
+    text-align: center;
 }

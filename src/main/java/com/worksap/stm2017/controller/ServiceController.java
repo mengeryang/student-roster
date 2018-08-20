@@ -5,17 +5,19 @@ import com.worksap.stm2017.Service.RosterService;
 
 import com.worksap.stm2017.Service.ServiceFactory;
 import com.worksap.stm2017.Service.StudentService;
-import com.worksap.stm2017.domain.Department;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -83,5 +85,29 @@ public class ServiceController {
     public List<Student> filterStudent(@RequestBody WorkTimeInfo workTimeInfo) {
         List<Student> studentList = rosterService.getAvailableStu(workTimeInfo);
         return studentList;
+    }
+
+    @RequestMapping(value = "/delete-schedule", method = RequestMethod.GET)
+    public String showDelSchd(Model model) {
+        model.addAttribute("schedList", new ArrayList<>());
+        model.addAttribute("selInfo", new DetailInfo());
+        return "service-delete-schedule";
+    }
+
+    @RequestMapping(value = "/delete-schedule", method = RequestMethod.POST)
+    @ResponseBody
+    public Message deleteSched(@RequestBody List<WorkTimeInfo> infoList) {
+        infoList.stream().forEach( x -> rosterService.deleteSchedule(x));
+        return new Message(" deletion success!");
+    }
+
+    @RequestMapping(value = "/delete-schedule/search", method = RequestMethod.POST)
+    public String delSearchRoster(Model model, @ModelAttribute("selInfo") DetailInfo selInfo) {
+        List<DetailInfo> schedList;
+
+        schedList = rosterService.getDptSchedOfWeekday(selInfo.getDptId(), selInfo.getWeekday());
+        model.addAttribute("schedList", schedList);
+
+        return "service-delete-schedule";
     }
 }

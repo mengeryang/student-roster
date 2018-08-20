@@ -5,20 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ServiceFactoryImpl implements ServiceFactory {
-//    private UserService userService;
     private StudentService studentService;
     private DepartmentService departmentService;
     private RosterService rosterService;
-
-//    public UserService getUserService() {
-//        return userService;
-//    }
-//
-//    @Autowired
-//    public void setUserService(UserService userService) {
-//        this.userService = userService;
-//    }
-
 
     public StudentService getStudentService() {
         return studentService;
