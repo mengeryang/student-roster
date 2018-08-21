@@ -74,7 +74,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 //    public String findStuDaySchedOfDpt(StuDptRel rel, String weekday) {
 //        try {
 //            return jdbcTemplate.queryForObject(FIND_STU_SCHED_OF_DPT_SQL,
-//                    new Object[] {rel.getDptId(), rel.getStuId(), weekday},
+//                    new Object[] {rel.getDptId(), rel.getId(), weekday},
 //                    (rs, i) -> rs.getString(1));
 //        } catch (DataAccessException e) {
 //            return null;
@@ -86,7 +86,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 //                ps -> {
 //            ps.setString(1, schedule.getIntervals());
 //            ps.setString(2, schedule.getDptId());
-//            ps.setString(3, schedule.getStuId());
+//            ps.setString(3, schedule.getId());
 //            ps.setString(4, schedule.getWeekday());
 //                });
 //    }

@@ -41,6 +41,11 @@ public class Intervals {
         return part_a.get(0) + "~" + part_a.get(3);
     }
 
+    public static String format(String interval) {
+        String[] part = interval.split("~");
+        return String.format("%02d:%02d", Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+    }
+
     public static List<String> mergeList(final List<String> slots) {
         List<String> sorted = new ArrayList<>(slots);
         List<String> res = new ArrayList<>();

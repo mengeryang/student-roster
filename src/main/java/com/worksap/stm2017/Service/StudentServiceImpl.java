@@ -8,12 +8,16 @@ import com.worksap.stm2017.domain.FreeTime;
 import com.worksap.stm2017.domain.StuDptRel;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.FreeTimeInfo;
+import com.worksap.stm2017.entity.StuInfo;
 import com.worksap.stm2017.entity.StuRegInfo;
 import com.worksap.stm2017.util.Intervals;
+import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -31,6 +35,10 @@ public class StudentServiceImpl implements StudentService {
     public void register(StuRegInfo stuRegInfo) {
         studentDao.insert(new Student(stuRegInfo.getStuId(), stuRegInfo.getStuName()));
         stuDptRelDao.insert(new StuDptRel(stuRegInfo.getStuId(), stuRegInfo.getDptId()));
+    }
+
+    public List<StuInfo> list_all_stu() {
+        return studentDao.list().stream().map(x -> new StuInfo(x.getId(), x.getName())).collect(Collectors.toList());
     }
 
     public void addFreeTime(FreeTimeInfo freeTimeInfo) {
@@ -51,11 +59,26 @@ public class StudentServiceImpl implements StudentService {
 
 
 //        if(Intervals.validate(freeTimeInfo.getIntervals())) {
-//            freeTimeDao.deleteByDay(freeTimeInfo.getStuId(), freeTimeInfo.getWeekday());
+//            freeTimeDao.deleteByDay(freeTimeInfo.getId(), freeTimeInfo.getWeekday());
 //            freeTimeDao.insert(new FreeTime(
-//                    freeTimeInfo.getStuId(),
+//                    freeTimeInfo.getId(),
 //                    freeTimeInfo.getWeekday(),
 //                    Intervals.merge(freeTimeInfo.getIntervals())));
 //        }
+    }
+
+    public FreeTimeInfo listFreeTimeOfDay(String stuId, String weekday) {
+        List<String> freeTimes = freeTimeDao.findByDay(stuId, weekday);
+        return new FreeTimeInfo(stuId, weekday, freeTimes);
+    }
+
+    public List<FreeTimeInfo> listFreeTime(String stuId) {
+        List<FreeTimeInfo> res = new ArrayList<>();
+
+        for(String weekday: WeekDay.WEEKDAYS) {
+            res.add(listFreeTimeOfDay(stuId, weekday));
+        }
+
+        return res;
     }
 }

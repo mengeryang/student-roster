@@ -29,7 +29,7 @@
                 <br style="clear:both"/>
                 <h3 style="margin-bottom: 25px; text-align: center;">Add New Schedule</h3>
                 <!--<div class="form-group">-->
-                    <!--<input type="text" class="form-control" th:field="*{stuId}" placeholder="Student ID" required="required"/>-->
+                    <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
                 <!--</div>-->
                 <div class="form-group">
                     <select class="form-control pre-scrollable filter-info" th:field="*{dptId}" id="add-schedule-dpt">
@@ -50,7 +50,7 @@
                 <button type="button" id="add-schedule-filter-button" class="btn btn-primary col-lg-4 col-lg-offset-4">filter</button>
 
                 <div class="form-group">
-                    <select class="form-control pre-scrollable" th:field="*{stuId}" id="add-schedule-stuList">
+                    <select class="form-control pre-scrollable" th:field="*{id}" id="add-schedule-stuList">
                         <option th:selected="selected" th:value="'-1'">select-student</option>
                     </select>
                 </div>

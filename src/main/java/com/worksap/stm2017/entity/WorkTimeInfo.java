@@ -1,16 +1,20 @@
 package com.worksap.stm2017.entity;
 
+import java.util.List;
+
 public class WorkTimeInfo {
     private  String stuId;
     private String dptId;
     private String weekday;
-    private String interval;
+    private List<String> timeSlots;
+    private String rawSlots;
 
-    public WorkTimeInfo(String stuId, String dptId, String weekday, String interval) {
+    public WorkTimeInfo(String stuId, String dptId, String weekday, List<String> timeSlots, String rawSlots) {
         this.stuId = stuId;
         this.dptId = dptId;
         this.weekday = weekday;
-        this.interval = interval;
+        this.timeSlots = timeSlots;
+        this.rawSlots = rawSlots;
     }
 
     public String getStuId() {
@@ -40,11 +44,19 @@ public class WorkTimeInfo {
         this.weekday = weekday;
     }
 
-    public String getInterval() {
-        return interval;
+    public List<String> getTimeSlots() {
+        return timeSlots;
     }
 
-    public void setInterval(String interval) {
-        this.interval = interval;
+    public void setTimeSlots(List<String> timeSlots) {
+        this.timeSlots = timeSlots;
+    }
+
+    public String getRawSlots() {
+        return rawSlots;
+    }
+
+    public void setRawSlots(String rawSlots) {
+        this.rawSlots = rawSlots;
     }
 }

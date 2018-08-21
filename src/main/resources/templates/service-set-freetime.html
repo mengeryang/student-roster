@@ -24,30 +24,64 @@
 
 <div class="container">
     <div align="ce">
-        <div class="form-area col-lg-4 col-lg-offset-4 form-new-staff-info">
+        <div class="form-area col-lg-4 col-lg-offset-4">
             <form action="#" th:action="@{/service/set-freetime}" th:object="${freeTimeInfo}" method="post" role="form">
                 <br style="clear:both"/>
                 <h3 style="margin-bottom: 25px; text-align: center;">Set Available Time</h3>
-                <div class="form-group">
-                    <input type="text" class="form-control" th:field="*{stuId}" placeholder="Student ID" required="required"/>
+                <div class="row">
+                    <input type="text" class="form-control col-lg-4 col-lg-offset-3 free-time-stuId" placeholder="Student ID" required="required"/>
+                    <button type="button" class="btn btn-primary col-lg-1 col-lg-offset-1 free-time-search">search</button>
                 </div>
-                <div class="form-group">
-                    <select class="form-control pre-scrollable" th:field="*{weekday}">
-                        <option th:selected="selected" th:value="'-1'">select-weekday</option>
-                        <option th:each="wk: ${weekdayList}" th:value="${wk}" th:text="${wk}">weekday</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" th:field="*{intervals}" placeholder="Available Time" required="required"/>
-                    <h6>eg: 08:00/10:00;18:00/21:00</h6>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<select class="form-control pre-scrollable" th:field="*{weekday}">-->
+                        <!--<option th:selected="selected" th:value="'-1'">select-weekday</option>-->
+                        <!--<option th:each="wk: ${weekdayList}" th:value="${wk}" th:text="${wk}">weekday</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<input type="text" class="form-control" th:field="*{intervals}" placeholder="Available Time" required="required"/>-->
+                    <!--<h6>eg: 08:00/10:00;18:00/21:00</h6>-->
+                <!--</div>-->
 
 
-                <button type="submit" class="btn btn-primary col-lg-4 col-lg-offset-4"> Submit </button>
+                <!--<button type="submit" class="btn btn-primary col-lg-4 col-lg-offset-4"> Submit </button>-->
             </form>
         </div>
-    </div>
 
+        <div class="free-time-table"></div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    Add New Time Slots
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" th:action="@{/service/set-freetime/add}" th:object="freeTimeInfo" method="post" role="form">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

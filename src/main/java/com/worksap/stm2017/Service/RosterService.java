@@ -10,7 +10,7 @@ import java.util.List;
 public interface RosterService {
     List<Student> getAvailableStu(WorkTimeInfo info);
     void addSchedule(WorkTimeInfo workTimeInfo);
-    List<DetailInfo> getDptSchedOfDate(String dptId, Date date);
-    List<DetailInfo> getDptSchedOfWeekday(String dptId, String weekday);
+    List<WorkTimeInfo> getDptSchedOfDate(String dptId, Date date);
+    List<WorkTimeInfo> getDptSchedOfWeekday(String dptId, String weekday);
     void deleteSchedule(WorkTimeInfo workTimeInfo);
 }

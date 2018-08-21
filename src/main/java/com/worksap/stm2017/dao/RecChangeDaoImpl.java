@@ -47,7 +47,7 @@ public class RecChangeDaoImpl implements RecChangeDao {
             ps.setString(1, schedule.getStuId());
             ps.setString(2, schedule.getDptId());
             ps.setString(3, schedule.getTimeSlot());
-            ps.setDate(2, new java.sql.Date(date.getTime()));
+            ps.setDate(4, new java.sql.Date(date.getTime()));
                 });
     }
 

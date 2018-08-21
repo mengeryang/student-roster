@@ -8,17 +8,11 @@ import com.worksap.stm2017.Service.StudentService;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/service")
@@ -39,9 +33,37 @@ public class ServiceController {
         return departmentService.list_all_dpt();
     }
 
-    @ModelAttribute("weekdayList")
-    public List<String> populateWeek() {
-        return Arrays.asList("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+    @ModelAttribute("stulist")
+    public List<StuInfo> populateStus() {
+        return studentService.list_all_stu();
+    }
+    @ModelAttribute("dptmap")
+    public Map<String, String> populateDptMap() {
+        Map<String, String> res = new HashMap<>();
+        for(DptInfo info: departmentService.list_all_dpt())
+            res.put(info.getId(), info.getName());
+        return res;
+    }
+
+    @ModelAttribute("stumap")
+    public Map<String, String> populateStuMap() {
+        Map<String, String> res = new HashMap<>();
+        for(StuInfo info: studentService.list_all_stu())
+            res.put(info.getId(), info.getName());
+        return res;
+    }
+
+    @ModelAttribute("weekdayMap")
+    public Map<String, String> populateWeek() {
+        Map<String, String> res = new HashMap<>();
+        res.put("1", "Mon");
+        res.put("2", "Tue");
+        res.put("3", "Wed");
+        res.put("4", "Thu");
+        res.put("5", "Fri");
+        res.put("6", "Sat");
+        res.put("0", "Sun");
+        return res;
     }
 
     @RequestMapping(value = "/add-student", method = RequestMethod.GET)
@@ -62,9 +84,16 @@ public class ServiceController {
         return "service-set-freetime";
     }
 
+    @RequestMapping(value = "/set-freetime/{stuId}", method = RequestMethod.GET)
+    public String searchFreeTime(Model model, @PathVariable("stuId") String stuId) {
+        List<FreeTimeInfo> freeTimeInfos = studentService.listFreeTime(stuId);
+        model.addAttribute("freeTimeInfos", freeTimeInfos);
+        return "result :: free-time-table";
+    }
+
     @RequestMapping(value = "/set-freetime", method = RequestMethod.POST)
     public String submitFreeTime(@ModelAttribute FreeTimeInfo freeTimeInfo) {
-        studentService.setFreeTime(freeTimeInfo);
+        studentService.addFreeTime(freeTimeInfo);
         return "service-set-freetime";
     }
 
@@ -83,8 +112,7 @@ public class ServiceController {
     @RequestMapping(value = "/add-schedule/filter", method = RequestMethod.POST)
     @ResponseBody
     public List<Student> filterStudent(@RequestBody WorkTimeInfo workTimeInfo) {
-        List<Student> studentList = rosterService.getAvailableStu(workTimeInfo);
-        return studentList;
+        return rosterService.getAvailableStu(workTimeInfo);
     }
 
     @RequestMapping(value = "/delete-schedule", method = RequestMethod.GET)
@@ -102,8 +130,8 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/delete-schedule/search", method = RequestMethod.POST)
-    public String delSearchRoster(Model model, @ModelAttribute("selInfo") DetailInfo selInfo) {
-        List<DetailInfo> schedList;
+    public String delSearchRoster(Model model, @ModelAttribute("selInfo") WorkTimeInfo selInfo) {
+        List<WorkTimeInfo> schedList;
 
         schedList = rosterService.getDptSchedOfWeekday(selInfo.getDptId(), selInfo.getWeekday());
         model.addAttribute("schedList", schedList);

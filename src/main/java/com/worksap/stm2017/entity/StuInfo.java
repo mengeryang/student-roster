@@ -1,30 +1,30 @@
 package com.worksap.stm2017.entity;
 
 public class StuInfo {
-    private String stuId;
-    private String stuName;
+    private String id;
+    private String name;
 
     public StuInfo() {
     }
 
-    public StuInfo(String stuId, String stuName) {
-        this.stuId = stuId;
-        this.stuName = stuName;
+    public StuInfo(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public String getStuId() {
-        return stuId;
+    public String getId() {
+        return id;
     }
 
-    public void setStuId(String stuId) {
-        this.stuId = stuId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getStuName() {
-        return stuName;
+    public String getName() {
+        return name;
     }
 
-    public void setStuName(String stuName) {
-        this.stuName = stuName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

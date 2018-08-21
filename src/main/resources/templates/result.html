@@ -19,6 +19,31 @@
 
 <body>
 
+<div th:fragment="free-time-table">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-bordered freetime-table">
+                <thead>
+                <tr class="bg-info">
+                    <th class="col-lg-1">WeekDay</th>
+                    <th>FreeTime Slots</th>
+                </tr>
+                </thead>
+                <tbody class="context" th:if="${not #lists.isEmpty(freeTimeInfos)}">
+                <tr th:each="freeTime: ${freeTimeInfos}">
+                    <td th:text="${weekdayMap.get(${freeTime.weekday})}"></td>
+                    <td>
+                        <div class="row" th:each="slot:${freeTime.timeSlots}">
+                            <span th:text="${slot}"></span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <div th:fragment="filtered-student">
     <select class="form-control pre-scrollable" th:field="${workTimeInfo.stu}">
         <option th:selected="selected" th:value="'-1'">select-weekday</option>

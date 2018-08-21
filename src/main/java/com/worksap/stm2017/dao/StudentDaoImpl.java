@@ -6,6 +6,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class  StudentDaoImpl implements StudentDao {
     private JdbcTemplate jdbcTemplate;
@@ -18,6 +20,8 @@ public class  StudentDaoImpl implements StudentDao {
 
     final static private String FIND_NAME_BY_ID =
             "SELECT stu_name FROM STUDENT WHERE stu_id=?";
+    final static private String LIST_SQL =
+            "SELECT * FROM STUDENT";
 
     @Autowired
     public StudentDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -53,5 +57,13 @@ public class  StudentDaoImpl implements StudentDao {
         }
 
         return null;
+    }
+
+    public List<Student> list() {
+        return jdbcTemplate.query(LIST_SQL,
+                (rs,i) -> new Student(
+                        rs.getString(1),
+                        rs.getString(2)
+                ));
     }
 }

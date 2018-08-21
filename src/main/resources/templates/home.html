@@ -67,8 +67,8 @@
                 </thead>
                 <tbody class="context" th:if="${not #lists.isEmpty(schedList)}">
                 <tr th:each="record: ${schedList}">
-                    <td th:text="${record.stuId}"></td>
-                    <td th:text="${record.stuName}"></td>
+                    <td th:text="${record.id}"></td>
+                    <td th:text="${record.name}"></td>
                     <td th:text="${record.dptName}"></td>
                     <td th:text="${record.getTimes()}"></td>
                 </tr>

@@ -5,6 +5,11 @@ $(document).ready(function(){
     //     todayHighlight: true
     // });
 
+    $("button.free-time-search").click(function () {
+       var stuId = $("input.free-time-stuId").text();
+       $()
+    });
+
     $("#add-schedule-filter-button").click(function () {
         var dpt = $("#add-schedule-dpt");
         var weekday = $("#add-schedule-weekday");

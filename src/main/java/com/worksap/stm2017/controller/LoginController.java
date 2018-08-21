@@ -16,11 +16,11 @@ public class LoginController {
         this.studentService = serviceFactory.getStudentService();
     }
 
-    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-    public String login(Model model) {
-        model.addAttribute("user", new User());
-        return "login";
-    }
+//    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+//    public String login(Model model) {
+//        model.addAttribute("user", new User());
+//        return "login";
+//    }
 
     @RequestMapping(value = "/signup.html", method = RequestMethod.GET)
     public String signup() {
