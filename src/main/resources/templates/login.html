@@ -18,20 +18,13 @@
 <div class="container">
     <div align="ce">
         <h1 class="form-signin-heading" align="center">Roster Management System</h1>
-        <form class="form-signin" action="#" th:action="@{/login}" th:object="${user}" method="post">
-            <!--<label for="username">User Name</label>-->
-            <input type="text" id="userId" class="form-control" placeholder="User ID" th:field="*{userId}" required="required" autofocus="autofocus"/>
-            <!--<input type="text" path="userId" class="form-control" placeholder="User ID" />-->
-            <!--<label for="password">Password</label>-->
+        <form class="form-signin" action="#" th:action="@{/login}" th:object="${loginInfo}" method="post">
+
+            <input type="text" id="userId" class="form-control" placeholder="User ID" th:field="*{id}" required="required" autofocus="autofocus"/>
+
             <input type="password" id="password" class="form-control" placeholder="Password" th:field="*{password}" required="required"/>
-            <!--<input type="password" path="password" class="form-control" placeholder="Password"/>-->
-            <div class="checkbox">
-            <label>
-                <input type="checkbox" id="remember_me"/>Remember me
-                </label>
-            </div>
+
             <button class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
-            <button class="btn btn-warning btn-lg btn-block" type="button" onclick="location.href='signup.html'">Sign up</button>
         </form>
     </div>
 </div>

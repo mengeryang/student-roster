@@ -6,8 +6,15 @@ $(document).ready(function(){
     // });
 
     $("button.free-time-search").click(function () {
-       var stuId = $("input.free-time-stuId").text();
-       $()
+       var stuId = $("input.free-time-stuId").val();
+       $("#free-time-table-template").load("/service/set-freetime/" + stuId, function () {
+           $('.btn-free-time-delete').prop('disabled', true);
+           if($('.tr-free-time').length)
+               $('.btn-free-time-add').prop('disabled', false);
+           else
+               $('.btn-free-time-add').prop('disabled', true);
+       });
+
     });
 
     $("#add-schedule-filter-button").click(function () {
@@ -78,6 +85,14 @@ $(document).ready(function(){
                 alert(e.toString());
             }
         });
-    })
+    });
+
+    $('input:checkbox').change(function () {
+        alert($('.checkbox-free-time:checked').length);
+        if($('.checkbox-free-time:checked').length)
+            $('.btn-free-time-delete').prop('disabled', false);
+        else
+            $('.btn-free-time-delete').prop('disabled', true);
+    });
 
 });

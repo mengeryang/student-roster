@@ -25,13 +25,11 @@
 <div class="container">
     <div align="ce">
         <div class="form-area col-lg-4 col-lg-offset-4">
-            <form action="#" th:action="@{/service/set-freetime}" th:object="${freeTimeInfo}" method="post" role="form">
+            <form action="#" method="post" role="form">
                 <br style="clear:both"/>
                 <h3 style="margin-bottom: 25px; text-align: center;">Set Available Time</h3>
-                <div class="row">
-                    <input type="text" class="form-control col-lg-4 col-lg-offset-3 free-time-stuId" placeholder="Student ID" required="required"/>
-                    <button type="button" class="btn btn-primary col-lg-1 col-lg-offset-1 free-time-search">search</button>
-                </div>
+                <input type="text" class="col-lg-6 col-lg-offset-3 free-time-stuId" placeholder="Student ID" required="required"/>
+                <button type="button" class="btn btn-primary col-lg-4 col-lg-offset-4 free-time-search">search</button>
                 <!--<div class="form-group">-->
                     <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
                 <!--</div>-->
@@ -51,8 +49,24 @@
             </form>
         </div>
 
-        <div class="free-time-table"></div>
-
+        <div id="free-time-table-template">
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <table class="table table-bordered free-time-table">
+                        <thead>
+                        <tr class="bg-info">
+                            <th class="col-lg-3">WeekDay</th>
+                            <th>FreeTime Slots</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row col-lg-4 col-lg-offset-4">
+            <button type="button" class="btn btn-success col-lg-3 col-lg-offset-2 btn-free-time-add" disabled="disabled">Add</button>
+            <button type="button" class="btn btn-danger col-lg-3 col-lg-offset-2 btn-free-time-delete" disabled="disabled">Delete</button>
+        </div>
     </div>
 </div>
 
@@ -69,7 +83,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form action="#" th:action="@{/service/set-freetime/add}" th:object="freeTimeInfo" method="post" role="form">
+                <form action="#" th:action="@{/service/set-freetime/add}" method="post" role="form">
 
                 </form>
             </div>
@@ -77,13 +91,14 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
                 <button type="button" class="btn btn-primary">
-                    提交更改
+
                 </button>
             </div>
         </div>
     </div>
 </div>
 
+<script src="../static/js/service.js" th:src="@{/js/service.js}"></script>
 
 </body>
 </html>

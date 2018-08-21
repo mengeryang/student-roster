@@ -14,3 +14,11 @@
 td, th {
     text-align: center;
 }
+
+input.free-time-stuId {
+    margin-bottom: 10px;
+}
+
+.checkbox-inline {
+    margin-top: 0px;
+}

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
@@ -80,15 +81,21 @@ public class ServiceController {
 
     @RequestMapping(value = "/set-freetime", method = RequestMethod.GET)
     public String showSetFree(Model model) {
-        model.addAttribute("freeTimeInfo", new FreeTimeInfo());
+//        model.addAttribute("freeTimeInfo", new FreeTimeInfo());
         return "service-set-freetime";
     }
 
     @RequestMapping(value = "/set-freetime/{stuId}", method = RequestMethod.GET)
-    public String searchFreeTime(Model model, @PathVariable("stuId") String stuId) {
+    public ModelAndView searchFreeTime(Model model, @PathVariable("stuId") String stuId) {
         List<FreeTimeInfo> freeTimeInfos = studentService.listFreeTime(stuId);
+        Message msg = new Message();
         model.addAttribute("freeTimeInfos", freeTimeInfos);
-        return "result :: free-time-table";
+        if(freeTimeInfos.isEmpty())
+            msg.setMsg("false");
+        else
+            msg.setMsg("true");
+
+        return new ModelAndView("result :: free-time-table", "msg", msg);
     }
 
     @RequestMapping(value = "/set-freetime", method = RequestMethod.POST)

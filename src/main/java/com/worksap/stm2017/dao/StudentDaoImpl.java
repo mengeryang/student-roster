@@ -20,6 +20,7 @@ public class  StudentDaoImpl implements StudentDao {
 
     final static private String FIND_NAME_BY_ID =
             "SELECT stu_name FROM STUDENT WHERE stu_id=?";
+
     final static private String LIST_SQL =
             "SELECT * FROM STUDENT";
 

@@ -69,11 +69,16 @@ public class StudentServiceImpl implements StudentService {
 
     public FreeTimeInfo listFreeTimeOfDay(String stuId, String weekday) {
         List<String> freeTimes = freeTimeDao.findByDay(stuId, weekday);
+        if(studentDao.findName(stuId) == null)
+            return null;
         return new FreeTimeInfo(stuId, weekday, freeTimes);
     }
 
     public List<FreeTimeInfo> listFreeTime(String stuId) {
         List<FreeTimeInfo> res = new ArrayList<>();
+
+        if(studentDao.findName(stuId) == null)
+            return new ArrayList<>();
 
         for(String weekday: WeekDay.WEEKDAYS) {
             res.add(listFreeTimeOfDay(stuId, weekday));

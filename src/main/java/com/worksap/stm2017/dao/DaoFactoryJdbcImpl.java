@@ -12,6 +12,8 @@ public class DaoFactoryJdbcImpl implements DaoFactory {
     private FreeTimeDao freeTimeDao;
     private ScheduleDao scheduleDao;
     private RecChangeDao recChangeDao;
+    private AccountDao accountDao;
+    private AdminDao adminDao;
 
     public DepartmentDao getDepartmentDao() {
         return departmentDao;
@@ -65,5 +67,23 @@ public class DaoFactoryJdbcImpl implements DaoFactory {
     @Autowired
     public void setRecChangeDao(RecChangeDao recChangeDao) {
         this.recChangeDao = recChangeDao;
+    }
+
+    public AccountDao getAccountDao() {
+        return accountDao;
+    }
+
+    @Autowired
+    public void setAccountDao(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
+    public AdminDao getAdminDao() {
+        return adminDao;
+    }
+
+    @Autowired
+    public void setAdminDao(AdminDao adminDao) {
+        this.adminDao = adminDao;
     }
 }

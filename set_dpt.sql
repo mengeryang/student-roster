@@ -1,0 +1,4 @@
+INSERT INTO DEPARTMENT(dpt_id,dpt_name) VALUES('0001','dpt0001');
+INSERT INTO DEPARTMENT(dpt_id,dpt_name) VALUES('0002','dpt0002');
+INSERT INTO DEPARTMENT(dpt_id,dpt_name) VALUES('0003','dpt0003');
+INSERT INTO DEPARTMENT(dpt_id,dpt_name) VALUES('0004','dpt0004');

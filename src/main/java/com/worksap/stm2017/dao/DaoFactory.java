@@ -7,4 +7,6 @@ public interface DaoFactory {
     FreeTimeDao getFreeTimeDao();
     ScheduleDao getScheduleDao();
     RecChangeDao getRecChangeDao();
+    AccountDao getAccountDao();
+    AdminDao getAdminDao();
 }

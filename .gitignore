@@ -4,4 +4,3 @@ target/
 *.iml
 .project
 src/main/webapp/WEB-INF/jsp/webeditor_normal.jsp
-*.sql

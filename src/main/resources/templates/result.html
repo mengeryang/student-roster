@@ -21,20 +21,22 @@
 
 <div th:fragment="free-time-table">
     <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-bordered freetime-table">
+        <div class="col-lg-4 col-lg-offset-4">
+            <table class="table table-bordered free-time-table">
                 <thead>
                 <tr class="bg-info">
-                    <th class="col-lg-1">WeekDay</th>
-                    <th>FreeTime Slots</th>
+                    <th class="col-lg-3">WeekDay</th>
+                    <th class="col-lg-9">Current Free Time Slots</th>
                 </tr>
                 </thead>
                 <tbody class="context" th:if="${not #lists.isEmpty(freeTimeInfos)}">
-                <tr th:each="freeTime: ${freeTimeInfos}">
-                    <td th:text="${weekdayMap.get(${freeTime.weekday})}"></td>
+                <tr class="tr-free-time" th:each="freeTime: ${freeTimeInfos}">
+                    <td th:text="${weekdayMap.get(freeTime.weekday)}"></td>
                     <td>
-                        <div class="row" th:each="slot:${freeTime.timeSlots}">
-                            <span th:text="${slot}"></span>
+                        <div th:each="slot:${freeTime.timeSlots}">
+                            <!--<label for="checkbox" th:text="${slot}"></label>-->
+                            <span th:text="${slot}">text</span>
+                            <input type="checkbox" class="checkbox-inline checkbox-free-time"/>
                         </div>
                     </td>
                 </tr>
