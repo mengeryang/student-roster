@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -13,13 +14,16 @@ public class FreeTimeDaoImpl implements FreeTimeDao {
     private JdbcTemplate jdbcTemplate;
 
     final static private String INSERT_SQL =
-            "INSERT INTO FREE_TIME(stu_id,weekday,times) VALUES(?,?,?)";
+            "INSERT INTO FREE_TIME(stu_id,weekday,time_slot) VALUES(?,?,?)";
 
-    final static private String DELETE_BY_DAY_SQL =
+    final static private String DELETE_FREE_TIME_OF_DAY_SQL =
             "DELETE FROM FREE_TIME WHERE stu_id=? and weekday=?";
 
-    final static private String FIND_BY_DAY_SQL =
-            "SELECT times FROM FREE_TIME WHERE stu_id=? and weekday=?";
+    final static private String FIND_FREE_TIME_OF_DAY_SQL =
+            "SELECT time_slot FROM FREE_TIME WHERE stu_id=? and weekday=?";
+
+    final static private String DELETE_SQL =
+            "DELETE FROM FREE_TIME WHERE stu_id=? and weekday=? and time_slot=?";
 
     @Autowired
     public FreeTimeDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -32,30 +36,41 @@ public class FreeTimeDaoImpl implements FreeTimeDao {
                     ps -> {
                         ps.setString(1, freeTime.getStuId());
                         ps.setString(2, freeTime.getWeekday());
-                        ps.setString(3, freeTime.getIntervals());
+                        ps.setString(3, freeTime.getTimeSlot());
                     });
         } catch (DataAccessException e) {
             //TODO
+            System.out.println("FreeTimeDaoImpl.java: insert: " + e.toString());
         }
     }
 
     public void deleteByDay(String stuId, String weekday) {
-        jdbcTemplate.update(DELETE_BY_DAY_SQL,
+        jdbcTemplate.update(DELETE_FREE_TIME_OF_DAY_SQL,
                 ps -> {
             ps.setString(1, stuId);
             ps.setString(2, weekday);
                 });
     }
 
-    public String findByDay(String stuId, String weekday) {
+    public void delete(FreeTime freeTime) {
+        jdbcTemplate.update(DELETE_SQL,
+                ps -> {
+            ps.setString(1, freeTime.getStuId());
+            ps.setString(2, freeTime.getWeekday());
+            ps.setString(3, freeTime.getTimeSlot());
+                });
+    }
+
+    public List<String> findByDay(String stuId, String weekday) {
         try {
-            return jdbcTemplate.queryForObject(FIND_BY_DAY_SQL,
+            return jdbcTemplate.query(FIND_FREE_TIME_OF_DAY_SQL,
                     new Object[]{stuId, weekday},
                     (rs, numRow) -> rs.getString(1));
         } catch (DataAccessException e) {
             //TODO
+            System.out.println("FreeTimeDaoImpl.java: findByDay: " + e.toString());
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }

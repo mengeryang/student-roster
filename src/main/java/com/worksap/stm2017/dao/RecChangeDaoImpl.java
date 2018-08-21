@@ -13,13 +13,13 @@ public class RecChangeDaoImpl implements RecChangeDao {
     private JdbcTemplate jdbcTemplate;
 
     final static private String INSERT_SQL =
-            "INSERT INTO CHANGE_REC(stu_id,dpt_id,weekday,times,rec_date) VALUES(?,?,?,?,?)";
+            "INSERT INTO CHANGE_REC(stu_id,dpt_id,weekday,time_slot,rec_date) VALUES(?,?,?,?,?)";
 
     final static private String DELETE_SQL =
-            "DELETE FROM CHANGE_REC WHERE dpt_id=? and rec_date=?";
+            "DELETE FROM CHANGE_REC WHERE stu_id=? and dpt_id=? and time_slot=? and rec_date=?";
 
-    final static private String FIND_SQL =
-            "SELECT stu_id,dpt_id,weekday,times FROM CHANGE_REC WHERE dpt_id=? and rec_date=?";
+    final static private String FIND_REC_BY_STU_DPT_DATE_SQL =
+            "SELECT time_slot FROM CHANGE_REC WHERE stu_id=? and dpt_id=? and rec_date=?";
 
     public RecChangeDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -32,33 +32,46 @@ public class RecChangeDaoImpl implements RecChangeDao {
                         ps.setString(1, schedule.getStuId());
                         ps.setString(2, schedule.getDptId());
                         ps.setString(3, schedule.getWeekday());
-                        ps.setString(4, schedule.getIntervals());
+                        ps.setString(4, schedule.getTimeSlot());
                         ps.setDate(5, new java.sql.Date(date.getTime()));
                     });
         } catch (DataAccessException e) {
             //TODO
+            System.out.println("RecChangeDaoImpl.java: insert: " + e.toString());
         }
     }
 
-    public void delete(String dptId, Date date) {
+    public void delete(Schedule schedule, Date date) {
         jdbcTemplate.update(DELETE_SQL,
                 ps -> {
-            ps.setString(1, dptId);
+            ps.setString(1, schedule.getStuId());
+            ps.setString(2, schedule.getDptId());
+            ps.setString(3, schedule.getTimeSlot());
             ps.setDate(2, new java.sql.Date(date.getTime()));
                 });
     }
 
-    public List<Schedule> find(String dptId, Date date) {
-        return jdbcTemplate.query(FIND_SQL,
+    public List<String> findRecByStuDptDate(String stuId, String dptId, Date date) {
+        return jdbcTemplate.query(FIND_REC_BY_STU_DPT_DATE_SQL,
                 ps -> {
-            ps.setString(1, dptId);
-            ps.setDate(2, new java.sql.Date(date.getTime()));
+            ps.setString(1, stuId);
+            ps.setString(2, dptId);
+            ps.setDate(3, new java.sql.Date(date.getTime()));
                 },
-                (rs, numRow) -> new Schedule(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4)
-                ));
+                (rs, i) -> rs.getString(1));
     }
+
+//    public List<Schedule> find(String dptId, Date date) {
+//        return jdbcTemplate.query(FIND_SQL,
+//                ps -> {
+//            ps.setString(1, dptId);
+//            ps.setDate(2, new java.sql.Date(date.getTime()));
+//                },
+//                (rs, numRow) -> new Schedule(
+//                        rs.getString(1),
+//                        rs.getString(2),
+//                        rs.getString(3),
+//                        rs.getString(4)
+//                ));
+//    }
 }

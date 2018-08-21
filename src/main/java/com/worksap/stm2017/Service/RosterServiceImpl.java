@@ -37,25 +37,19 @@ public class RosterServiceImpl implements RosterService {
     public List<Student> getAvailableStu(WorkTimeInfo info) {
         List<String> stuIdList = stuDptRelDao.list_by_dpt(info.getDptId());
         List<Student> resList = new ArrayList<>();
+        String weekday = info.getWeekday();
+        String target_slot = info.getInterval();
 
         if(!Intervals.validate(info.getInterval()))
             return new ArrayList<>();
 
         for(String stuId: stuIdList) {
-            String idle_intervals = freeTimeDao.findByDay(stuId, info.getWeekday());
-            List<String> work_intervals = scheduleDao.findStuSchedOfDay(stuId, info.getWeekday());
-
-            List<String> idle_list = Arrays.asList(idle_intervals.split(";"));
-            List<String> work_list = new ArrayList<>();
+            List<String> idle_slots = freeTimeDao.findByDay(stuId, weekday);
+            List<String> work_slots = scheduleDao.findStuSchedOfDay(stuId, info.getWeekday());
             boolean available = true;
 
-            for(String s: work_intervals) {
-                List<String> tmp_list = Arrays.asList(s.split(";"));
-                work_list.addAll(tmp_list);
-            }
-
-            for(String s: work_list) {
-                if(Intervals.isOverlap(info.getInterval(), s)) {
+            for(String s: work_slots) {
+                if(Intervals.isOverlap(target_slot, s)) {
                     available = false;
                     break;
                 }
@@ -63,54 +57,50 @@ public class RosterServiceImpl implements RosterService {
 
             if(available) {
                 available = false;
-                for(String s: idle_list) {
-                    if(Intervals.isAinB(info.getInterval(), s)) {
+                for(String s: idle_slots) {
+                    if(Intervals.isAinB(target_slot, s)) {
                         available = true;
                         break;
                     }
                 }
             }
 
-            if(available) {
+            if(available)
                 resList.add(new Student(stuId, studentDao.findName(stuId)));
-            }
         }
 
         return resList;
     }
 
     public void addSchedule(WorkTimeInfo workTimeInfo) {
-        String orig = scheduleDao.findStuDaySchedOfDpt(
-                new StuDptRel(workTimeInfo.getStuId(), workTimeInfo.getDptId()),
-                workTimeInfo.getWeekday());
-        String intervals = "";
+        String stuId = workTimeInfo.getStuId();
+        String dptId = workTimeInfo.getDptId();
+        String weekday = workTimeInfo.getWeekday();
+        String workSlot = workTimeInfo.getInterval();
+//        List<String> origSlots = scheduleDao.findStuDaySchedOfDpt(stuId, dptId, weekday);
 
-        if(!Intervals.validate(workTimeInfo.getInterval()))
-            return;
+//        if(!Intervals.validate(workTimeInfo.getInterval()))
+//            return;
+//
+//        if(orig == null) {
+//            intervals = workTimeInfo.getInterval();
+//        }
+//        else {
+//            List<String> tmpList = new ArrayList<>(Arrays.asList(orig.split(";")));
+//            tmpList.add(workTimeInfo.getInterval());
+//            Collections.sort(tmpList);
+//            for(String s: tmpList) {
+//                intervals += (s + ";");
+//            }
+//        }
 
-        if(orig == null) {
-            intervals = workTimeInfo.getInterval();
-        }
-        else {
-            List<String> tmpList = new ArrayList<>(Arrays.asList(orig.split(";")));
-            tmpList.add(workTimeInfo.getInterval());
-            Collections.sort(tmpList);
-            for(String s: tmpList) {
-                intervals += (s + ";");
-            }
-        }
+        Schedule newSchedule = new Schedule(stuId, dptId, weekday, workSlot);
+        scheduleDao.insert(newSchedule);
 
-        Schedule newSchedule = new Schedule(
-                workTimeInfo.getStuId(),
-                workTimeInfo.getDptId(),
-                workTimeInfo.getWeekday(),
-                intervals
-        );
-
-        if(orig != null)
-            scheduleDao.updateStuDaySchedOfDpt(newSchedule);
-        else
-            scheduleDao.insert(newSchedule);
+//        if(orig != null)
+//            scheduleDao.updateStuDaySchedOfDpt(newSchedule);
+//        else
+//            scheduleDao.insert(newSchedule);
     }
 
     public List<DetailInfo> getDptSchedOfWeekday(String dptId, String weekday) {
@@ -173,58 +163,14 @@ public class RosterServiceImpl implements RosterService {
             )).collect(Collectors.toList());
         }
 
-//        scheduleList = scheduleDao.list(dptId, weekday);
-//
-//        if(scheduleList.isEmpty())
-//            return resList;
-//
-//        return scheduleList.stream().map( x -> new DetailInfo(
-//                dptId,
-//                departmentDao.findName(dptId),
-//                x.getStuId(),
-//                studentDao.findName(x.getStuId()),
-//                date_str,
-//                x.getIntervals(),
-//                weekday
-//        )).collect(Collectors.toList());
-
     }
 
     public void deleteSchedule(WorkTimeInfo workTimeInfo) {
-        scheduleDao.delete(new StuDptRel(
+        scheduleDao.delete(new Schedule(
                 workTimeInfo.getStuId(),
-                workTimeInfo.getDptId()),
-                workTimeInfo.getWeekday());
+                workTimeInfo.getDptId(),
+                workTimeInfo.getWeekday(),
+                workTimeInfo.getInterval()));
     }
 
-//    public List<UserWorkTime> getRosterBydpt(String dptId, Date date) {
-//        String weekday;
-//        List<UserWorkTime> res = new ArrayList<>();
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(date);
-//        switch (c.get(Calendar.DAY_OF_WEEK)) {
-//            case Calendar.MONDAY:
-//                weekday = "Mon"; break;
-//            case Calendar.TUESDAY:
-//                weekday = "Tue"; break;
-//            case Calendar.WEDNESDAY:
-//                weekday = "Wed"; break;
-//            case Calendar.THURSDAY:
-//                weekday = "Thu"; break;
-//            case Calendar.FRIDAY:
-//                weekday = "Fri"; break;
-//            case Calendar.SATURDAY:
-//                weekday = "Sat"; break;
-//            default:
-//                weekday = "Sun";
-//        }
-//
-//        System.out.println("weekday: " + weekday);
-//        if((res = rosterRecordDao.list_dpt_rec(dptId, date)).isEmpty()){
-//            System.out.println("Checkin");
-//            return userWorkTimeDao.listByDpt(dptId, weekday);
-//        }
-//        else
-//            return res;
-//    }
 }

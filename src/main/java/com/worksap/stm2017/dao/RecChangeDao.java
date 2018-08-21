@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface RecChangeDao {
     void insert(Schedule schedule, Date date);
-    void delete(String dptId, Date date);
-    List<Schedule> find(String dptId, Date date);
+    void delete(Schedule schedule, Date date);
+    List<String> findRecByStuDptDate(String stuId, String dptId, Date date);
+//    List<Schedule> find(String dptId, Date date);
 }

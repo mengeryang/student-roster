@@ -1,14 +1,16 @@
 package com.worksap.stm2017.entity;
 
+import java.util.List;
+
 public class FreeTimeInfo {
     private String stuId;
     private String weekday;
-    private String intervals;
+    private List<String> timeSlots;
 
-    public FreeTimeInfo(String stuId, String weekday, String intervals) {
+    public FreeTimeInfo(String stuId, String weekday, List<String> timeSlots) {
         this.stuId = stuId;
         this.weekday = weekday;
-        this.intervals = intervals;
+        this.timeSlots = timeSlots;
     }
 
     public FreeTimeInfo() {
@@ -30,11 +32,11 @@ public class FreeTimeInfo {
         this.weekday = weekday;
     }
 
-    public String getIntervals() {
-        return intervals;
+    public List<String> getTimeSlots() {
+        return timeSlots;
     }
 
-    public void setIntervals(String intervals) {
-        this.intervals = intervals;
+    public void setTimeSlots(List<String> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 }

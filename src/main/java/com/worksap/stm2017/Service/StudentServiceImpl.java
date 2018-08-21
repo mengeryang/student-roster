@@ -33,13 +33,29 @@ public class StudentServiceImpl implements StudentService {
         stuDptRelDao.insert(new StuDptRel(stuRegInfo.getStuId(), stuRegInfo.getDptId()));
     }
 
-    public void setFreeTime(FreeTimeInfo freeTimeInfo) {
-        if(Intervals.validate(freeTimeInfo.getIntervals())) {
-            freeTimeDao.deleteByDay(freeTimeInfo.getStuId(), freeTimeInfo.getWeekday());
-            freeTimeDao.insert(new FreeTime(
-                    freeTimeInfo.getStuId(),
-                    freeTimeInfo.getWeekday(),
-                    Intervals.merge(freeTimeInfo.getIntervals())));
+    public void addFreeTime(FreeTimeInfo freeTimeInfo) {
+        List<String> newSlots = freeTimeInfo.getTimeSlots();
+        String weekday = freeTimeInfo.getWeekday();
+        String stuId = freeTimeInfo.getStuId();
+
+        for(String s: newSlots) {
+            if(!Intervals.validate(s)) {
+                System.out.println(this.getClass() + ": invalid time-slot format.");
+                return;
+            }
         }
+
+        newSlots.addAll(freeTimeDao.findByDay(stuId, weekday));
+        Intervals.mergeList(newSlots);
+        newSlots.stream().forEach( x -> freeTimeDao.insert(new FreeTime(stuId, weekday, x)));
+
+
+//        if(Intervals.validate(freeTimeInfo.getIntervals())) {
+//            freeTimeDao.deleteByDay(freeTimeInfo.getStuId(), freeTimeInfo.getWeekday());
+//            freeTimeDao.insert(new FreeTime(
+//                    freeTimeInfo.getStuId(),
+//                    freeTimeInfo.getWeekday(),
+//                    Intervals.merge(freeTimeInfo.getIntervals())));
+//        }
     }
 }

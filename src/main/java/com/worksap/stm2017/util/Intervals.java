@@ -1,7 +1,6 @@
 package com.worksap.stm2017.util;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.PatternSyntaxException;
 
 public class Intervals {
@@ -9,7 +8,7 @@ public class Intervals {
         String[] intervalList = intervals.split(";");
 
         for(String interval: intervalList) {
-            String[] hms_str = interval.split("[:/]");
+            String[] hms_str = interval.split("[:~]");
             Integer[] hms = new Integer[4];
 
             if(hms_str.length != 4)
@@ -32,15 +31,41 @@ public class Intervals {
         return true;
     }
 
-    public static String merge(String intervals) {
-        //TODO
+    public static String merge(String interval_a, String interval_b) {
+        List<String> part_a = new ArrayList<>(Arrays.asList(interval_a.split("~")));
+        List<String> part_b = new ArrayList<>(Arrays.asList(interval_b.split("~")));
 
-        return intervals;
+        part_a.addAll(part_b);
+        Collections.sort(part_a);
+
+        return part_a.get(0) + "~" + part_a.get(3);
+    }
+
+    public static List<String> mergeList(final List<String> slots) {
+        List<String> sorted = new ArrayList<>(slots);
+        List<String> res = new ArrayList<>();
+        int pos = 0;
+
+        Collections.sort(sorted);
+        res.add(sorted.get(0));
+
+        for(int i = 1; i< sorted.size(); i++) {
+            String s = sorted.get(i);
+            if(isOverlap(res.get(pos), s)) {
+                res.set(pos, merge(res.get(pos), s));
+            }
+            else {
+                res.add(s);
+                pos++;
+            }
+        }
+
+        return res;
     }
 
     public static boolean isOverlap(final String interval_a, final String interval_b) {
-        String[] part_a = interval_a.split("[/:]");
-        String[] part_b = interval_b.split("[/:]");
+        String[] part_a = interval_a.split("[~:]");
+        String[] part_b = interval_b.split("[~:]");
 
         return !((Integer.parseInt(part_a[0])*100 + Integer.parseInt(part_a[1]) >
                 Integer.parseInt(part_b[2])*100 + Integer.parseInt(part_b[3])) ||
@@ -49,8 +74,8 @@ public class Intervals {
     }
 
     public static boolean isAinB(final String interval_a, final String interval_b) {
-        String[] part_a = interval_a.split("[/:]");
-        String[] part_b = interval_b.split("[/:]");
+        String[] part_a = interval_a.split("[~:]");
+        String[] part_b = interval_b.split("[~:]");
 
         return (Integer.parseInt(part_a[0])*100 + Integer.parseInt(part_a[1]) >=
                 Integer.parseInt(part_b[0])*100 + Integer.parseInt(part_b[1])) &&

@@ -2,7 +2,6 @@ package com.worksap.stm2017.controller;
 
 import com.worksap.stm2017.Service.ServiceFactory;
 import com.worksap.stm2017.Service.StudentService;
-import com.worksap.stm2017.domain.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

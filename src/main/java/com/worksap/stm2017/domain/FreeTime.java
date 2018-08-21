@@ -4,12 +4,12 @@ package com.worksap.stm2017.domain;
 public class FreeTime {
     private String stuId;
     private String weekday;
-    private String intervals;
+    private String timeSlot;
 
-    public FreeTime(String stuId, String weekday, String intervals) {
+    public FreeTime(String stuId, String weekday, String timeSlot) {
         this.stuId = stuId;
         this.weekday = weekday;
-        this.intervals = intervals;
+        this.timeSlot = timeSlot;
     }
 
     public String getStuId() {
@@ -28,11 +28,11 @@ public class FreeTime {
         this.weekday = weekday;
     }
 
-    public String getIntervals() {
-        return intervals;
+    public String getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setIntervals(String intervals) {
-        this.intervals = intervals;
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
     }
 }

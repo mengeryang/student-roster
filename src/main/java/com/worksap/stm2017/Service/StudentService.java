@@ -5,5 +5,5 @@ import com.worksap.stm2017.entity.StuRegInfo;
 
 public interface StudentService {
     void register(StuRegInfo stuRegInfo);
-    void setFreeTime(FreeTimeInfo freeTimeInfo);
+    void addFreeTime(FreeTimeInfo freeTimeInfo);
 }

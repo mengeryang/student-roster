@@ -14,22 +14,22 @@ public class ScheduleDaoImpl implements ScheduleDao {
     private JdbcTemplate jdbcTemplate;
 
     final static private String INSERT_SQL =
-            "INSERT INTO SCHEDULE(stu_id,dpt_id,weekday,times) VALUES(?,?,?,?)";
+            "INSERT INTO SCHEDULE(stu_id,dpt_id,weekday,time_slot) VALUES(?,?,?,?)";
 
     final static private String DELETE_SQL =
-            "DELETE FROM SCHEDULE WHERE stu_id=? and dpt_id=? and weekday=?";
+            "DELETE FROM SCHEDULE WHERE stu_id=? and dpt_id=? and weekday=? and time_slot=?";
 
-    final static private String LIST_SQL =
-            "SELECT * FROM SCHEDULE WHERE dpt_id=? and weekday=?";
+    final static private String LIST_BY_STU_DPT_DAY_SQL =
+            "SELECT time_slot FROM SCHEDULE WHERE dpt_id=? and weekday=?";
 
-    final static private String FIND_STU_SCHED_OF_DPT_SQL =
-            "SELECT times FROM SCHEDULE WHERE dpt_id=? and stu_id=? and weekday=?";
+//    final static private String FIND_STU_SCHED_OF_DPT_SQL =
+//            "SELECT time_slot FROM SCHEDULE WHERE dpt_id=? and stu_id=? and weekday=?";
+//
+//    final static private String UPDATE_STU_SCHED_OF_DPT_SQL =
+//            "UPDATE SCHEDULE SET time_slot=? WHERE dpt_id=? and stu_id=? and weekday=?";
 
-    final static private String UPDATE_STU_SCHED_OF_DPT_SQL =
-            "UPDATE SCHEDULE SET times=? WHERE dpt_id=? and stu_id=? and weekday=?";
-
-    final static private String FIND_STU_SCHED_OF_DAY_SQL =
-            "SELECT times FROM SCHEDULE WHERE stu_id=? and weekday=?";
+    final static private String LIST_BY_STU_DAY_SQL =
+            "SELECT time_slot FROM SCHEDULE WHERE stu_id=? and weekday=?";
 
     @Autowired
     public ScheduleDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -43,7 +43,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
                         ps.setString(1, schedule.getStuId());
                         ps.setString(2, schedule.getDptId());
                         ps.setString(3, schedule.getWeekday());
-                        ps.setString(4, schedule.getIntervals());
+                        ps.setString(4, schedule.getTimeSlot());
                     });
         } catch (DataAccessException e) {
             //TODO
@@ -51,51 +51,48 @@ public class ScheduleDaoImpl implements ScheduleDao {
         }
     }
 
-    public void delete(StuDptRel rel, String weekday) {
+    public void delete(Schedule schedule) {
         jdbcTemplate.update(DELETE_SQL,
                 ps -> {
-            ps.setString(1, rel.getStuId());
-            ps.setString(2, rel.getDptId());
+                    ps.setString(1, schedule.getStuId());
+                    ps.setString(2, schedule.getDptId());
+                    ps.setString(3, schedule.getWeekday());
+                    ps.setString(4, schedule.getTimeSlot());
+                });
+    }
+
+    public List<String> findStuDaySchedOfDpt(String stuId, String dptId, String weekday) {
+        return jdbcTemplate.query(LIST_BY_STU_DPT_DAY_SQL,
+                ps -> {
+            ps.setString(1, stuId);
+            ps.setString(2, dptId);
             ps.setString(3, weekday);
-                });
-    }
-
-    public List<Schedule> list(String dptId, String weekday) {
-        return jdbcTemplate.query(LIST_SQL,
-                ps -> {
-            ps.setString(1, dptId);
-            ps.setString(2, weekday);
                 },
-                (rs,numRow) -> new Schedule(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4)
-                ));
+                (rs,numRow) -> rs.getString(1));
     }
 
-    public String findStuDaySchedOfDpt(StuDptRel rel, String weekday) {
-        try {
-            return jdbcTemplate.queryForObject(FIND_STU_SCHED_OF_DPT_SQL,
-                    new Object[] {rel.getDptId(), rel.getStuId(), weekday},
-                    (rs, i) -> rs.getString(1));
-        } catch (DataAccessException e) {
-            return null;
-        }
-    }
-
-    public void updateStuDaySchedOfDpt(Schedule schedule) {
-        jdbcTemplate.update(UPDATE_STU_SCHED_OF_DPT_SQL,
-                ps -> {
-            ps.setString(1, schedule.getIntervals());
-            ps.setString(2, schedule.getDptId());
-            ps.setString(3, schedule.getStuId());
-            ps.setString(4, schedule.getWeekday());
-                });
-    }
+//    public String findStuDaySchedOfDpt(StuDptRel rel, String weekday) {
+//        try {
+//            return jdbcTemplate.queryForObject(FIND_STU_SCHED_OF_DPT_SQL,
+//                    new Object[] {rel.getDptId(), rel.getStuId(), weekday},
+//                    (rs, i) -> rs.getString(1));
+//        } catch (DataAccessException e) {
+//            return null;
+//        }
+//    }
+//
+//    public void updateStuDaySchedOfDpt(Schedule schedule) {
+//        jdbcTemplate.update(UPDATE_STU_SCHED_OF_DPT_SQL,
+//                ps -> {
+//            ps.setString(1, schedule.getIntervals());
+//            ps.setString(2, schedule.getDptId());
+//            ps.setString(3, schedule.getStuId());
+//            ps.setString(4, schedule.getWeekday());
+//                });
+//    }
 
     public List<String> findStuSchedOfDay(String stuId, String weekday) {
-        return jdbcTemplate.query(FIND_STU_SCHED_OF_DAY_SQL,
+        return jdbcTemplate.query(LIST_BY_STU_DAY_SQL,
                 ps -> {
             ps.setString(1, stuId);
             ps.setString(2, weekday);

@@ -1,21 +1,23 @@
 package com.worksap.stm2017.entity;
 
+import java.util.List;
+
 public class DetailInfo {
     private String dptId;
     private String dptName;
     private String stuId;
     private String stuName;
     private String date;
-    private String times;
+    private List<String> timeSlots;
     private String weekday;
 
-    public DetailInfo(String dptId, String dptName, String stuId, String stuName, String date, String times, String weekday) {
+    public DetailInfo(String dptId, String dptName, String stuId, String stuName, String date, List<String> timeSlots, String weekday) {
         this.dptId = dptId;
         this.dptName = dptName;
         this.stuId = stuId;
         this.stuName = stuName;
         this.date = date;
-        this.times = times;
+        this.timeSlots = timeSlots;
         this.weekday = weekday;
     }
 
@@ -62,12 +64,12 @@ public class DetailInfo {
         this.date = date;
     }
 
-    public String getTimes() {
-        return times;
+    public List<String> getTimeSlots() {
+        return timeSlots;
     }
 
-    public void setTimes(String times) {
-        this.times = times;
+    public void setTimeSlots(List<String> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 
     public String getWeekday() {
