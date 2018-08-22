@@ -23,7 +23,7 @@
 
 <body>
 
-<div th:include="stu-navbar:: fixed-navbar"></div>
+<div th:include="stu-navbar:: fixed-navbar (${stuId})"></div>
 
 <div class="container main-board">
     <div class="panel-heading text-center">
@@ -80,6 +80,10 @@
             </table>
         </div>
     </div>
+</div>
+
+<div class="hidden-info">
+    <p th:text="${stuId}" class="stuId"></p>
 </div>
 
 <script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>

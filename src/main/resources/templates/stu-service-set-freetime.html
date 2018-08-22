@@ -20,60 +20,47 @@
 
 <body>
 
-<div th:include="stu-navbar:: fixed-navbar"></div>
+<div th:include="stu-navbar:: fixed-navbar (${stuId})"></div>
 
 <div class="container">
     <div align="ce">
-        <!--<div class="form-area col-lg-4 col-lg-offset-4">-->
-            <!--<form action="#" method="post" role="form">-->
-                <!--<br style="clear:both"/>-->
-                <!--<h3 style="margin-bottom: 25px; text-align: center;">Available Time</h3>-->
-                <!--<input type="text" class="col-lg-6 col-lg-offset-3 free-time-stuId" placeholder="Student ID" required="required"/>-->
-                <!--<button type="button" class="btn btn-primary col-lg-4 col-lg-offset-4 free-time-search">search</button>-->
-                <!--<div class="form-group">-->
-                    <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<select class="form-control pre-scrollable" th:field="*{weekday}">-->
-                        <!--<option th:selected="selected" th:value="'-1'">select-weekday</option>-->
-                        <!--<option th:each="wk: ${weekdayList}" th:value="${wk}" th:text="${wk}">weekday</option>-->
-                    <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<input type="text" class="form-control" th:field="*{intervals}" placeholder="Available Time" required="required"/>-->
-                    <!--<h6>eg: 08:00/10:00;18:00/21:00</h6>-->
-                <!--</div>-->
-
-
-                <!--<button type="submit" class="btn btn-primary col-lg-4 col-lg-offset-4"> Submit </button>-->
-            <!--</form>-->
-        <!--</div>-->
 
         <div id="free-time-table-template">
             <br style="clear:both"/>
-            <h3 style="margin-bottom: 25px; text-align: center;">Available Time</h3>
-            <div class="row">
+            <h3 style="margin-bottom: 25px; text-align: center;">Current Available Time</h3>
+            <div class="row stu-freetime-table">
                 <div class="col-lg-4 col-lg-offset-4">
                     <table class="table table-bordered free-time-table">
                         <thead>
                         <tr class="bg-info">
                             <th class="col-lg-3">WeekDay</th>
-                            <th>FreeTime Slots</th>
+                            <th class="col-lg-9">Available Time Slots</th>
                         </tr>
                         </thead>
+                        <tbody>
+                        <tr th:each="info:${freeTimeInfos}" class="free-time-row">
+                            <td th:text="${weekdayMap.get(info.weekday)}" class="free-time-weekday"></td>
+                            <td>
+                                <div th:each="slot:${info.timeSlots}" class="free-time-slot">
+                                    <span th:text="${slot}">text</span>
+                                    <input type="checkbox" class="checkbox-inline free-time-checkbox" th:value="${slot}"/>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
         <div class="row col-lg-4 col-lg-offset-4">
-            <button type="button" class="btn btn-success col-lg-3 col-lg-offset-2 btn-free-time-add" disabled="disabled">Add</button>
+            <button type="button" class="btn btn-success col-lg-3 col-lg-offset-2 btn-free-time-add" data-toggle="modal" data-target="#model-1">Add</button>
             <button type="button" class="btn btn-danger col-lg-3 col-lg-offset-2 btn-free-time-delete" disabled="disabled">Delete</button>
         </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="model-1" tabindex="-1" role="form" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,23 +71,41 @@
                     Add New Time Slots
                 </h4>
             </div>
-            <div class="modal-body">
-                <form action="#" th:action="@{/service/set-freetime/add}" method="post" role="form">
+            <div class="modal-body" style="text-align: center">
+                <form action="#" th:action="@{/student/service/{path}/set-freetime/add(path=${stuId})}" th:object="${newFreeTimeForm}" method="post" role="form">
+                    <h4>Weekday:</h4>
 
+                    <select class="pre-scrollable" th:field="*{weekday}">
+                        <option th:each="wk:${weekdayList}" th:value="${wk}" th:text="${weekdayMap.get(wk)} ">text</option>
+                    </select>
+
+                    <h4>Available Time Slot:</h4>
+                    <input type="text" placeholder="hh:mm~hh:mm" th:field="*{timeSlot}"/>
+                    <!--<div class="hidden-info" style="margin-bottom: 10px">-->
+                        <!--<input type="text" th:value="${stuId}" th:field="*{stuId}" />-->
+                    <!--</div>-->
+                    <br/>
+                    <div>
+                        <button type="submit" class="btn btn-primary">submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <button type="button" class="btn btn-primary">
 
-                </button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="../static/js/service.js" th:src="@{/js/service.js}"></script>
+<div class="hidden-info">
+    <p th:text="${stuId}" class="stuId"></p>
+</div>
+
+<script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/notify.min.js" th:src="@{/js/notify.min.js}"></script>
+<script src="../static/js/stu-service.js" th:src="@{/js/stu-service.js}"></script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 .form-new-staff-info {
     /*padding-left: 250px;*/
     /*padding-right: 250px;*/
+    margin-bottom: 20px;
 }
 
 .btn-update-schedule {
@@ -21,4 +22,8 @@ input.free-time-stuId {
 
 .checkbox-inline {
     margin-top: 0px;
+}
+
+.hidden-info {
+    display: none;
 }

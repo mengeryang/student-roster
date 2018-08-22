@@ -20,7 +20,7 @@
 <body>
 
 <!-- Fixed navbar -->
-<div th:fragment="fixed-navbar">
+<div th:fragment="fixed-navbar (stuId)">
     <link href="../static/css/navbar-fixed-top.css" th:href="@{/css/navbar-fixed-top.css}" rel="stylesheet"/>
 
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -36,13 +36,13 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" th:href="@{/student/home}">Home</a></li>
+                    <li><a href="#" th:href="@{/student/home/{path}(path=${stuId})}">Home</a></li>
                     <!--<li><a href="#">Settings</a></li>-->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Service <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" th:href="@{/student/service/edit-password}">Set free time</a></li>
-                            <li><a href="#" th:href="@{/student/service/set-freetime}">Set free time</a></li>
+                            <li><a href="#" th:href="@{/student/service/edit-password}">Edit Password</a></li>
+                            <li><a href="#" th:href="@{/student/service/{path}/set-freetime(path=${stuId})}">Set free time</a></li>
                             <li><a href="#" th:href="@{/student/service/ask-leave}">Ask for leave</a></li>
                         </ul>
                     </li>
@@ -50,8 +50,8 @@
             </div>
         </div>
     </nav>
-    <script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <!--<script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>-->
+    <!--<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>-->
 </div>
 
 

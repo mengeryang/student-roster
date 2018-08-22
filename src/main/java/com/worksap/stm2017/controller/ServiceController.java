@@ -7,6 +7,7 @@ import com.worksap.stm2017.Service.ServiceFactory;
 import com.worksap.stm2017.Service.StudentService;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.*;
+import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,26 +57,18 @@ public class ServiceController {
 
     @ModelAttribute("weekdayMap")
     public Map<String, String> populateWeek() {
-        Map<String, String> res = new HashMap<>();
-        res.put("1", "Mon");
-        res.put("2", "Tue");
-        res.put("3", "Wed");
-        res.put("4", "Thu");
-        res.put("5", "Fri");
-        res.put("6", "Sat");
-        res.put("0", "Sun");
-        return res;
+        return WeekDay.WeekMap();
     }
 
     @RequestMapping(value = "/add-student", method = RequestMethod.GET)
     public String showAddStu(Model model) {
-        model.addAttribute("stuRegInfo", new StuRegInfo());
+        model.addAttribute("stuRegInfo", new StuRegForm());
         return "service-add-student";
     }
 
     @RequestMapping(value = "/add-student", method = RequestMethod.POST)
-    public String submitStaffInfo(@ModelAttribute StuRegInfo stuRegInfo) {
-        studentService.register(stuRegInfo);
+    public String submitStaffInfo(@ModelAttribute StuRegForm stuRegForm) {
+        studentService.register(stuRegForm);
         return "service-add-student";
     }
 

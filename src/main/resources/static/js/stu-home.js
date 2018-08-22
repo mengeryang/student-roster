@@ -8,6 +8,6 @@ $(document).ready(function () {
     $('button.stu-home-search').click(function () {
         var date = $('input.stu-home-datepicker').val();
         var dptId = $('select.stu-home-department').find(':selected').val();
-        $('.stu-home-schedule-table').load('/student/'+dptId+'/'+date.replace(/\//g,"-"));
+        $('.stu-home-schedule-table').load('/student/home/'+dptId+'/'+date.replace(/\//g,"-"));
     })
 });

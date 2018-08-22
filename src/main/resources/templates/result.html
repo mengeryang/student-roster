@@ -73,6 +73,32 @@
     </div>
 </div>
 
+<div th:fragment="schedule-editable">
+    <div class="col-lg-6 col-lg-offset-3">
+        <table class="table table-bordered">
+            <thead>
+            <tr class="bg-info">
+                <th class="col-lg-3">Student ID</th>
+                <th class="col-lg-3">Student Name</th>
+                <th class="col-lg-6">Current Schedule</th>
+            </tr>
+            </thead>
+            <tbody class="context" th:if="${not #lists.isEmpty(workTimeInfos)}">
+            <tr th:each="info:${workTimeInfos}" class="schedule-row">
+                <td th:text="${info.stuId}" class="schedule-stuId"></td>
+                <td th:text="${stumap.get(info.stuId)}" class="schedule-stuName"></td>
+                <td>
+                    <div th:each="slot:${info.timeSlots}" class="free-time-slot">
+                        <span th:text="${slot}">text</span>
+                        <input type="checkbox" class="checkbox-inline free-time-checkbox" th:value="${slot}"/>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <div th:fragment="filtered-student">
     <select class="form-control pre-scrollable" th:field="${workTimeInfo.stu}">
         <option th:selected="selected" th:value="'-1'">select-weekday</option>

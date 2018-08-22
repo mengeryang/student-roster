@@ -42,8 +42,16 @@ public class Intervals {
     }
 
     public static String format(String interval) {
-        String[] part = interval.split("~");
-        return String.format("%02d:%02d", Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+        String[] part = interval.split("[~:]");
+        return String.format("%02d:%02d~%02d:%02d", Integer.parseInt(part[0]), Integer.parseInt(part[1]),
+                Integer.parseInt(part[2]), Integer.parseInt(part[3]));
+    }
+
+    public static void formatList(List<String> slots) {
+        for(int i = 0; i < slots.size(); i++) {
+            String tmp = slots.get(i);
+            slots.set(i, format(tmp));
+        }
     }
 
     public static List<String> mergeList(final List<String> slots) {
@@ -51,6 +59,7 @@ public class Intervals {
         List<String> res = new ArrayList<>();
         int pos = 0;
 
+        formatList(sorted);
         Collections.sort(sorted);
         res.add(sorted.get(0));
 

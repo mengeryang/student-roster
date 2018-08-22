@@ -4,16 +4,14 @@ import com.worksap.stm2017.Service.DepartmentService;
 import com.worksap.stm2017.Service.RosterService;
 import com.worksap.stm2017.Service.ServiceFactory;
 import com.worksap.stm2017.Service.StudentService;
-import com.worksap.stm2017.entity.DptInfo;
-import com.worksap.stm2017.entity.StuInfo;
-import com.worksap.stm2017.entity.WorkTimeInfo;
+import com.worksap.stm2017.domain.FreeTime;
+import com.worksap.stm2017.entity.*;
+import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
@@ -59,6 +57,16 @@ public class StuController {
         return res;
     }
 
+    @ModelAttribute("weekdayMap")
+    public Map<String, String> populateWeekMap() {
+        return WeekDay.WeekMap();
+    }
+
+    @ModelAttribute("weekdayList")
+    public List<String> populateWeekList() {
+        return WeekDay.WeekList();
+    }
+
     @RequestMapping(value = "/home/{stuId}")
     public String studentHome(Model model, @PathVariable("stuId") String stuId) {
         List<DptInfo> dptInfos = departmentService.listDptOfStu(stuId);
@@ -67,6 +75,7 @@ public class StuController {
 
         model.addAttribute("dpts", dptInfos);
         model.addAttribute("workTimeInfos", workTimeInfos);
+        model.addAttribute("stuId", stuId);
 
         return "stu-home";
     }
@@ -84,6 +93,35 @@ public class StuController {
             System.out.println("date parse failed");
         }
         model.addAttribute("workTimeInfos", workTimeInfos);
-        return "result : schedule-table";
+        return "result :: schedule-table";
+    }
+
+    @RequestMapping(value = "/service/{stuId}/set-freetime", method = RequestMethod.GET)
+    public String studentSetFreetime(Model model, @PathVariable("stuId") String stuId) {
+        List<FreeTimeInfo> freeTimeInfos = studentService.listFreeTime(stuId);
+
+        model.addAttribute("freeTimeInfos", freeTimeInfos);
+        model.addAttribute("stuId", stuId);
+        model.addAttribute("newFreeTimeForm", new FreeTimeForm());
+
+        return "stu-service-set-freetime";
+    }
+
+    @RequestMapping(value = "/service/{stuId}/set-freetime/add", method = RequestMethod.POST)
+    public String studentSetFreeTimeAdd(@ModelAttribute("newFreeTimeForm") FreeTimeForm newform,
+                                        @PathVariable("stuId") String stuId) {
+        List<String> tmp = new ArrayList<>();
+        tmp.add(newform.getTimeSlot());
+        studentService.addFreeTime(new FreeTimeInfo(stuId,
+                newform.getWeekday(), tmp));
+        return "redirect:/student/service/" + stuId + "/set-freetime";
+    }
+
+    @RequestMapping(value = "/service/{stuId}/set-freetime/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Message studentSetFreeTimeDelete(@RequestBody List<FreeTimeInfo> infos) {
+
+        infos.stream().forEach(x -> studentService.deleteFreeTime(x));
+        return new Message("Deletion Success");
     }
 }

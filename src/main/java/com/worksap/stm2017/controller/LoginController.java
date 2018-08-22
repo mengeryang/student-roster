@@ -47,7 +47,7 @@ public class LoginController {
         }
 
         if(loginService.isAdmin(loginInfo))
-            return "redirect:/home";
+            return "redirect:/admin/home";
         else
             return "redirect:/student/home/" + loginInfo.getId();
     }

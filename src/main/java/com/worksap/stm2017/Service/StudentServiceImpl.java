@@ -1,21 +1,20 @@
 package com.worksap.stm2017.Service;
 
-import com.worksap.stm2017.dao.DaoFactory;
-import com.worksap.stm2017.dao.FreeTimeDao;
-import com.worksap.stm2017.dao.StuDptRelDao;
-import com.worksap.stm2017.dao.StudentDao;
+import com.worksap.stm2017.dao.*;
+import com.worksap.stm2017.domain.Account;
 import com.worksap.stm2017.domain.FreeTime;
 import com.worksap.stm2017.domain.StuDptRel;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.FreeTimeInfo;
 import com.worksap.stm2017.entity.StuInfo;
-import com.worksap.stm2017.entity.StuRegInfo;
+import com.worksap.stm2017.entity.StuRegForm;
 import com.worksap.stm2017.util.Intervals;
 import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,17 +23,20 @@ public class StudentServiceImpl implements StudentService {
     private StudentDao studentDao;
     private StuDptRelDao stuDptRelDao;
     private FreeTimeDao freeTimeDao;
+    private AccountDao accountDao;
 
     @Autowired
     public StudentServiceImpl(DaoFactory daoFactory) {
         this.studentDao = daoFactory.getStudentDao();
         this.stuDptRelDao = daoFactory.getStuDptRelDao();
         this.freeTimeDao = daoFactory.getFreeTimeDao();
+        this.accountDao = daoFactory.getAccountDao();
     }
 
-    public void register(StuRegInfo stuRegInfo) {
-        studentDao.insert(new Student(stuRegInfo.getStuId(), stuRegInfo.getStuName()));
-        stuDptRelDao.insert(new StuDptRel(stuRegInfo.getStuId(), stuRegInfo.getDptId()));
+    public void register(StuRegForm stuRegForm) {
+        studentDao.insert(new Student(stuRegForm.getStuId(), stuRegForm.getStuName()));
+        stuDptRelDao.insert(new StuDptRel(stuRegForm.getStuId(), stuRegForm.getDptId()));
+        accountDao.insert(new Account(stuRegForm.getStuId(), stuRegForm.getStuId()));
     }
 
     public List<StuInfo> list_all_stu() {
@@ -54,7 +56,8 @@ public class StudentServiceImpl implements StudentService {
         }
 
         newSlots.addAll(freeTimeDao.findByDay(stuId, weekday));
-        Intervals.mergeList(newSlots);
+        newSlots = Intervals.mergeList(newSlots);
+        freeTimeDao.deleteByDay(stuId, weekday);
         newSlots.stream().forEach( x -> freeTimeDao.insert(new FreeTime(stuId, weekday, x)));
 
 
@@ -67,10 +70,19 @@ public class StudentServiceImpl implements StudentService {
 //        }
     }
 
+    public void deleteFreeTime(FreeTimeInfo freeTimeInfo) {
+        String weekday = freeTimeInfo.getWeekday();
+        String stuId = freeTimeInfo.getStuId();
+
+        freeTimeInfo.getTimeSlots().forEach(x -> freeTimeDao.delete(new FreeTime(stuId, weekday, x)));
+    }
+
     public FreeTimeInfo listFreeTimeOfDay(String stuId, String weekday) {
         List<String> freeTimes = freeTimeDao.findByDay(stuId, weekday);
         if(studentDao.findName(stuId) == null)
             return null;
+
+        Collections.sort(freeTimes);
         return new FreeTimeInfo(stuId, weekday, freeTimes);
     }
 

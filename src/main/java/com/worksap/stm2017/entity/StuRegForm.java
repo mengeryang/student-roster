@@ -1,17 +1,17 @@
 package com.worksap.stm2017.entity;
 
-public class StuRegInfo {
+public class StuRegForm {
     private String stuId;
     private String stuName;
     private String dptId;
 
-    public StuRegInfo(String stuId, String stuName, String dptId) {
+    public StuRegForm(String stuId, String stuName, String dptId) {
         this.stuId = stuId;
         this.stuName = stuName;
         this.dptId = dptId;
     }
 
-    public StuRegInfo() {
+    public StuRegForm() {
     }
 
     public String getStuId() {

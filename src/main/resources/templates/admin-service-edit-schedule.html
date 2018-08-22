@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/service.css" th:href="@{/css/service.css}" rel="stylesheet" type="text/css"/>
+
+    <!--<link href="../static/css/navbar-fixed-top.css" th:href="@{/css/navbar-fixed-top.css}" rel="stylesheet"/>-->
+
+</head>
+
+<body>
+
+<div th:include="navbar:: fixed-navbar"></div>
+
+<div class="container">
+    <div align="ce">
+        <div class="form-area col-lg-6 col-lg-offset-3 form-new-staff-info">
+            <form action="#" method="post" role="form">
+                <br style="clear:both"/>
+                <h3 style="margin-bottom: 60px; text-align: center;">Edit Schedule</h3>
+                <!--<div class="form-group">-->
+                    <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
+                <!--</div>-->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <select class="form-control pre-scrollable filter-info" id="edit-schedule-dptlist">
+                            <option th:selected="selected" th:value="'-1'">select-department</option>
+                            <option th:each="dpt: ${dptlist}" th:value="${dpt.getId()}" th:text="${dpt.getName()}">dpt</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <select class="form-control pre-scrollable filter-info" id="edit-schedule-weekdaylist">
+                            <option th:selected="selected" th:value="'-1'">select-weekday</option>
+                            <option th:each="wk: ${weekdayList}" th:value="${wk}" th:text="${weekdayMap.get(wk)}">weekday</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-lg-offset-2">
+                        <button type="button" class="btn btn-primary form-control" id="edit-schedule-search">search</button>
+                    </div>
+
+                </div>
+
+                <!--<div class="form-group">-->
+                <!--<input type="text" class="form-control filter-info" th:field="*{interval}" placeholder="worktime" required="required" id="add-schedule-worktime"/>-->
+                <!--</div>-->
+
+                <!--<button type="button" id="add-schedule-filter-button" class="btn btn-primary col-lg-4 col-lg-offset-4">filter</button>-->
+
+                <!--<div class="form-group">-->
+                    <!--<select class="form-control pre-scrollable" th:field="*{id}" id="add-schedule-stuList">-->
+                        <!--<option th:selected="selected" th:value="'-1'">select-student</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+
+
+                <!--<button type="submit" class="btn btn-primary col-lg-4 col-lg-offset-4"> Submit </button>-->
+            </form>
+        </div>
+        <div class="schedule-table">
+            <div class="col-lg-6 col-lg-offset-3">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="bg-info">
+                        <th class="col-lg-3">Student ID</th>
+                        <th class="col-lg-3">Student Name</th>
+                        <th class="col-lg-6">Current Schedule</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row col-lg-6 col-lg-offset-3">
+            <button type="button" class="btn btn-success col-lg-3 col-lg-offset-2 btn-schedule-add" data-toggle="modal" data-target="#modal-2" disabled="disabled">Add</button>
+            <button type="button" class="btn btn-danger col-lg-3 col-lg-offset-2 btn-schedule-delete" disabled="disabled">Delete</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modal-2" tabindex="-1" role="form" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    Add New Time Schedule
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <div>
+                        <h4>Time slot to be scheduled:</h4>
+                    </div>
+                    <div>
+                        <input type="text" class="form-control col-lg-4 filter" placeholder="hh:mm~hh:mm"/>
+                        <button type="button" class="btn btn-primary form-control modal-filter">filter</button>
+                    </div>
+                    <div>
+                        <select class="form-control pre-scrollable" id="add-schedule-stuList">
+                            <option th:selected="selected" th:value="'-1'">select-student</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary modal-submit" data-dismiss="modal">submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                    </div>
+                </div>
+                <!--<form action="#" th:action="@{/student/service/{path}/set-freetime/add(path=${stuId})}" th:object="${newFreeTimeForm}" method="post" role="form">-->
+                    <!--<h4>Weekday:</h4>-->
+
+                    <!--<select class="pre-scrollable" th:field="*{weekday}">-->
+                        <!--<option th:each="wk:${weekdayList}" th:value="${wk}" th:text="${weekdayMap.get(wk)} ">text</option>-->
+                    <!--</select>-->
+
+                    <!--<h4>Available Time Slot:</h4>-->
+                    <!--<input type="text" placeholder="hh:mm~hh:mm" th:field="*{timeSlot}"/>-->
+                    <!--&lt;!&ndash;<div class="hidden-info" style="margin-bottom: 10px">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="text" th:value="${stuId}" th:field="*{stuId}" />&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<br/>-->
+                    <!--<div>-->
+                        <!--<button type="submit" class="btn btn-primary">submit</button>-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>-->
+                    <!--</div>-->
+                <!--</form>-->
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/notify.min.js" th:src="@{/js/notify.min.js}"></script>
+<script src="../static/js/service.js" th:src="@{/js/service.js}"></script>
+
+</body>
+</html>

@@ -7,5 +7,6 @@ import java.util.List;
 public interface FreeTimeDao {
     void insert(FreeTime freeTime);
     void deleteByDay(String stuId, String weekday);
+    void delete(FreeTime freeTime);
     List<String> findByDay(String stuId, String weekday);
 }
