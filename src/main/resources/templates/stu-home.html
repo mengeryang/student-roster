@@ -30,57 +30,61 @@
         <div class="h2">Roster Table</div>
         <hr/>
     </div>
-    <form action="#" th:action="@{/home/search}" method="post">
+    <form action="#" method="post">
         <div class="row">
             <div class="col-lg-3 home-select">
-                <select class="form-control pre-scrollable" title="department" th:field="${selInfo.dptId}">
+                <select class="form-control pre-scrollable stu-home-department" title="department">
                     <option th:selected="selected" th:value="'-1'">select-department</option>
-                    <option th:each="dpt: ${dptlist}" th:value="${dpt.id}" th:text="${dpt.name}">dpt</option>
+                    <option th:each="dpt: ${dpts}" th:value="${dpt.id}" th:text="${dpt.name}">dpt</option>
                 </select>
             </div>
             <div class="col-lg-2">
-                <div class="input-group date" id="homedatepicker" data-provide="datepicker">
-                    <input type="text" class="form-control" th:field="${selInfo.date}" placeholder="dd/mm/yyyy"/>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control stu-home-datepicker" placeholder="mm/dd/yyyy"/>
                     <span class="input-group-addon">
                     <i class="glyphicon glyphicon-th"></i>
                 </span>
                 </div>
             </div>
-            <div class="col-lg-1 pull-right" id="home-search">
-                <button class="btn btn-primary" type="submit">Search</button>
+            <div class="col-lg-1 pull-right">
+                <button class="btn btn-primary stu-home-search" type="button">Search</button>
             </div>
 
         </div>
     </form>
 
     <!-- Main component for a primary marketing message or call to action -->
-    <div class="row">
+    <div class="row stu-home-schedule-table">
         <div class="col-lg-12">
             <table class="table table-bordered" id="roster-table">
                 <thead>
                 <tr class="bg-info">
-                    <th class="col-lg-1">ID</th>
-                    <th class="col-lg-2">Name</th>
+                    <th class="col-lg-2">Student ID</th>
+                    <th class="col-lg-2">Student Name</th>
                     <th class="col-lg-2">Department</th>
-                    <th>Schedule</th>
+                    <th class="col-lg-6">Schedule</th>
                 </tr>
                 </thead>
-                <tbody class="context" th:if="${not #lists.isEmpty(schedList)}">
-                <tr th:each="record: ${schedList}">
-                    <td th:text="${record.id}"></td>
-                    <td th:text="${record.name}"></td>
-                    <td th:text="${record.dptName}"></td>
-                    <td th:text="${record.getTimes()}"></td>
+                <tbody class="context" th:if="${not #lists.isEmpty(workTimeInfos)}">
+                <tr th:each="info: ${workTimeInfos}">
+                    <td th:text="${info.stuId}"></td>
+                    <td th:text="${stumap.get(info.stuId)}"></td>
+                    <td th:text="${dptmap.get(info.dptId)}"></td>
+                    <td>
+                       <div class="row" th:each="slot: ${info.timeSlots}">
+                           <div th:text="${slot}"></div>
+                       </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+</div>
 
-</div> <!-- /container -->
 <script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-<!--<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>-->
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
-<script src="../static/js/home.js" th:src="@{/js/home.js}"></script>
+<script src="../static/js/stu-home.js" th:src="@{/js/stu-home.js}"></script>
 </body>
 </html>

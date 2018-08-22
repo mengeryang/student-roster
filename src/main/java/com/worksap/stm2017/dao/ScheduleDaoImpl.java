@@ -20,7 +20,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             "DELETE FROM SCHEDULE WHERE stu_id=? and dpt_id=? and weekday=? and time_slot=?";
 
     final static private String LIST_BY_STU_DPT_DAY_SQL =
-            "SELECT time_slot FROM SCHEDULE WHERE dpt_id=? and weekday=?";
+            "SELECT time_slot FROM SCHEDULE WHERE stu_id=? and dpt_id=? and weekday=?";
 
 //    final static private String FIND_STU_SCHED_OF_DPT_SQL =
 //            "SELECT time_slot FROM SCHEDULE WHERE dpt_id=? and stu_id=? and weekday=?";

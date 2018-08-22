@@ -1,0 +1,13 @@
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309244', '0001','Mon','08:00~10:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309244', '0001','Mon','14:00~16:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309244', '0001','Tue','08:00~10:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309244', '0001','Tue','14:00~16:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309243', '0002','Mon','08:00~10:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309243', '0002','Tue','14:00~16:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309243', '0002','Wed','08:00~10:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309242', '0002','Mon','14:00~16:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309242', '0002','Tue','08:00~10:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309242', '0002','Wed','14:00~16:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309245', '0001','Mon','08:00~10:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309245', '0001','Tue','14:00~16:00');
+INSERT INTO SCHEDULE(stu_id, dpt_id, weekday, time_slot) VALUES('5140309245', '0001','Wed','08:00~10:00');

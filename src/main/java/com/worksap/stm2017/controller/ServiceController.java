@@ -82,7 +82,7 @@ public class ServiceController {
     @RequestMapping(value = "/set-freetime", method = RequestMethod.GET)
     public String showSetFree(Model model) {
 //        model.addAttribute("freeTimeInfo", new FreeTimeInfo());
-        return "service-set-freetime";
+        return "stu-service-set-freetime";
     }
 
     @RequestMapping(value = "/set-freetime/{stuId}", method = RequestMethod.GET)
@@ -101,7 +101,7 @@ public class ServiceController {
     @RequestMapping(value = "/set-freetime", method = RequestMethod.POST)
     public String submitFreeTime(@ModelAttribute FreeTimeInfo freeTimeInfo) {
         studentService.addFreeTime(freeTimeInfo);
-        return "service-set-freetime";
+        return "stu-service-set-freetime";
     }
 
     @RequestMapping(value = "/add-schedule", method = RequestMethod.GET)

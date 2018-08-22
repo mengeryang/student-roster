@@ -20,16 +20,16 @@
 
 <body>
 
-<div th:include="navbar:: fixed-navbar"></div>
+<div th:include="stu-navbar:: fixed-navbar"></div>
 
 <div class="container">
     <div align="ce">
-        <div class="form-area col-lg-4 col-lg-offset-4">
-            <form action="#" method="post" role="form">
-                <br style="clear:both"/>
-                <h3 style="margin-bottom: 25px; text-align: center;">Set Available Time</h3>
-                <input type="text" class="col-lg-6 col-lg-offset-3 free-time-stuId" placeholder="Student ID" required="required"/>
-                <button type="button" class="btn btn-primary col-lg-4 col-lg-offset-4 free-time-search">search</button>
+        <!--<div class="form-area col-lg-4 col-lg-offset-4">-->
+            <!--<form action="#" method="post" role="form">-->
+                <!--<br style="clear:both"/>-->
+                <!--<h3 style="margin-bottom: 25px; text-align: center;">Available Time</h3>-->
+                <!--<input type="text" class="col-lg-6 col-lg-offset-3 free-time-stuId" placeholder="Student ID" required="required"/>-->
+                <!--<button type="button" class="btn btn-primary col-lg-4 col-lg-offset-4 free-time-search">search</button>-->
                 <!--<div class="form-group">-->
                     <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
                 <!--</div>-->
@@ -46,10 +46,12 @@
 
 
                 <!--<button type="submit" class="btn btn-primary col-lg-4 col-lg-offset-4"> Submit </button>-->
-            </form>
-        </div>
+            <!--</form>-->
+        <!--</div>-->
 
         <div id="free-time-table-template">
+            <br style="clear:both"/>
+            <h3 style="margin-bottom: 25px; text-align: center;">Available Time</h3>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">
                     <table class="table table-bordered free-time-table">
