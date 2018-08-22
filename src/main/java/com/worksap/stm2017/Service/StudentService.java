@@ -1,6 +1,7 @@
 package com.worksap.stm2017.Service;
 
 import com.worksap.stm2017.entity.FreeTimeInfo;
+import com.worksap.stm2017.entity.LoginInfo;
 import com.worksap.stm2017.entity.StuInfo;
 import com.worksap.stm2017.entity.StuRegForm;
 
@@ -12,4 +13,5 @@ public interface StudentService {
     List<StuInfo> list_all_stu();
     List<FreeTimeInfo> listFreeTime(String stuId);
     void deleteFreeTime(FreeTimeInfo freeTimeInfo);
+    void updateAccount(LoginInfo newAccount);
 }

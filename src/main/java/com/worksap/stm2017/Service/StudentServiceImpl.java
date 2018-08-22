@@ -6,6 +6,7 @@ import com.worksap.stm2017.domain.FreeTime;
 import com.worksap.stm2017.domain.StuDptRel;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.FreeTimeInfo;
+import com.worksap.stm2017.entity.LoginInfo;
 import com.worksap.stm2017.entity.StuInfo;
 import com.worksap.stm2017.entity.StuRegForm;
 import com.worksap.stm2017.util.Intervals;
@@ -39,6 +40,10 @@ public class StudentServiceImpl implements StudentService {
         accountDao.insert(new Account(stuRegForm.getStuId(), stuRegForm.getStuId()));
     }
 
+    public void updateAccount(LoginInfo newAccount) {
+        accountDao.update(new Account(newAccount.getId(), newAccount.getPassword()));
+    }
+
     public List<StuInfo> list_all_stu() {
         return studentDao.list().stream().map(x -> new StuInfo(x.getId(), x.getName())).collect(Collectors.toList());
     }
@@ -60,14 +65,6 @@ public class StudentServiceImpl implements StudentService {
         freeTimeDao.deleteByDay(stuId, weekday);
         newSlots.stream().forEach( x -> freeTimeDao.insert(new FreeTime(stuId, weekday, x)));
 
-
-//        if(Intervals.validate(freeTimeInfo.getIntervals())) {
-//            freeTimeDao.deleteByDay(freeTimeInfo.getId(), freeTimeInfo.getWeekday());
-//            freeTimeDao.insert(new FreeTime(
-//                    freeTimeInfo.getId(),
-//                    freeTimeInfo.getWeekday(),
-//                    Intervals.merge(freeTimeInfo.getIntervals())));
-//        }
     }
 
     public void deleteFreeTime(FreeTimeInfo freeTimeInfo) {

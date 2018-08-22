@@ -27,7 +27,7 @@
                 <th class="col-lg-2">Student ID</th>
                 <th class="col-lg-2">Student Name</th>
                 <th class="col-lg-2">Department</th>
-                <th class="col-lg-6">Schedule</th>
+                <th class="col-lg-6">Current Duty Time</th>
             </tr>
             </thead>
             <tbody class="context" th:if="${not #lists.isEmpty(workTimeInfos)}">
@@ -36,8 +36,8 @@
                 <td th:text="${stumap.get(info.stuId)}"></td>
                 <td th:text="${dptmap.get(info.dptId)}"></td>
                 <td>
-                    <div class="row" th:each="slot: ${info.timeSlots}">
-                        <div th:text="${slot}"></div>
+                    <div class="row">
+                        <div th:each="slot: ${info.timeSlots}" th:text="${slot}"></div>
                     </div>
                 </td>
             </tr>
@@ -80,7 +80,7 @@
             <tr class="bg-info">
                 <th class="col-lg-3">Student ID</th>
                 <th class="col-lg-3">Student Name</th>
-                <th class="col-lg-6">Current Schedule</th>
+                <th class="col-lg-6">Current Duty Time</th>
             </tr>
             </thead>
             <tbody class="context" th:if="${not #lists.isEmpty(workTimeInfos)}">
@@ -88,15 +88,16 @@
                 <td th:text="${info.stuId}" class="schedule-stuId"></td>
                 <td th:text="${stumap.get(info.stuId)}" class="schedule-stuName"></td>
                 <td>
-                    <div th:each="slot:${info.timeSlots}" class="free-time-slot">
+                    <div th:each="slot:${info.timeSlots}" class="schedule-slot">
                         <span th:text="${slot}">text</span>
-                        <input type="checkbox" class="checkbox-inline free-time-checkbox" th:value="${slot}"/>
+                        <input type="checkbox" class="checkbox-inline schedule-checkbox" th:value="${slot}"/>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+    <!--<script src="../static/js/service.js" th:src="@{/js/service.js}"></script>-->
 </div>
 
 <div th:fragment="filtered-student">

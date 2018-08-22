@@ -41,7 +41,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Service <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" th:href="@{/student/service/edit-password}">Edit Password</a></li>
+                            <li><a href="#" th:href="@{/student/service/{path}/edit-password(path=${stuId})}">Edit Password</a></li>
                             <li><a href="#" th:href="@{/student/service/{path}/set-freetime(path=${stuId})}">Set free time</a></li>
                             <li><a href="#" th:href="@{/student/service/ask-leave}">Ask for leave</a></li>
                         </ul>

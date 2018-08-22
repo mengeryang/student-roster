@@ -1,9 +1,6 @@
 package com.worksap.stm2017.controller;
 
-import com.worksap.stm2017.Service.DepartmentService;
-import com.worksap.stm2017.Service.RosterService;
-import com.worksap.stm2017.Service.ServiceFactory;
-import com.worksap.stm2017.Service.StudentService;
+import com.worksap.stm2017.Service.*;
 import com.worksap.stm2017.domain.FreeTime;
 import com.worksap.stm2017.entity.*;
 import com.worksap.stm2017.util.WeekDay;
@@ -24,12 +21,14 @@ public class StuController {
     private RosterService rosterService;
     private StudentService studentService;
     private DepartmentService departmentService;
+    private LoginService loginService;
 
     @Autowired
     public StuController(ServiceFactory serviceFactory) {
         this.rosterService = serviceFactory.getRosterService();
         this.studentService = serviceFactory.getStudentService();
         this.departmentService = serviceFactory.getDepartmentService();
+        this.loginService = serviceFactory.getLoginService();
     }
 
 //    @ModelAttribute("dptlist")
@@ -123,5 +122,25 @@ public class StuController {
 
         infos.stream().forEach(x -> studentService.deleteFreeTime(x));
         return new Message("Deletion Success");
+    }
+
+    @RequestMapping(value = "/service/{stuId}/edit-password", method = RequestMethod.GET)
+    public String studentEditPasswordShow(Model model, @PathVariable("stuId") String stuId) {
+        model.addAttribute("stuId", stuId);
+        return "stu-service-edit-password";
+    }
+
+    @RequestMapping(value = "/service/{stuId}/edit-password", method = RequestMethod.POST)
+    @ResponseBody
+    public Message studentEditPasswordEdit(@RequestBody List<LoginInfo> infos) {
+        LoginInfo origInfo = infos.get(0);
+        LoginInfo newInfo = infos.get(1);
+
+        if(loginService.checkLogin(origInfo)) {
+            studentService.updateAccount(newInfo);
+            return new Message("success");
+        }
+        else
+            return new Message("failed");
     }
 }

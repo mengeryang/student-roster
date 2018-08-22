@@ -130,6 +130,20 @@ public class AdminController {
                 .map(x -> new StuInfo(x.getId(), x.getName())).collect(Collectors.toList());
     }
 
+    @RequestMapping(value = "/service/edit-schedule/add", method = RequestMethod.POST)
+    @ResponseBody
+    public Message editScheduleAdd(@RequestBody WorkTimeInfo workTimeInfo) {
+        rosterService.addSchedule(workTimeInfo);
+        return new Message();
+    }
+
+    @RequestMapping(value = "/service/edit-schedule/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Message editScheduleDelete(@RequestBody List<WorkTimeInfo> workTimeInfos) {
+        workTimeInfos.stream().forEach(x -> rosterService.deleteSchedule(x));
+        return new Message();
+    }
+
 //    @RequestMapping(value = "/search", method = RequestMethod.POST)
 //    public String searchRoster(Model model, @ModelAttribute("selInfo") DetailInfo selInfo) {
 //        String raw_date = selInfo.getDate();

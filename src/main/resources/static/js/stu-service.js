@@ -54,5 +54,49 @@ $(document).ready(function () {
                 alert(e.toString());
             }
         });
-    })
+    });
+
+    $('button.edit-password-submit').click(function () {
+        var orig_pwd = $('#original-pwd');
+        var new_pwd = $('#new-pwd');
+        var confirm_pwd = $('#confirm-pwd');
+        var stuId = $('.stuId').text();
+        var sdata = [];
+        var tmp1 = {};
+        var tmp2 = {};
+
+        if(new_pwd.val() == "") {
+            $.notify(new_pwd, "password should not be empty", {className: 'error', position:"right"});
+            return;
+        }
+
+        if(new_pwd.val() != confirm_pwd.val()) {
+            $.notify(confirm_pwd, "password confirmed fail", {className: 'error', position:"right"});
+            return;
+        }
+
+        tmp1["id"] = stuId;
+        tmp1["password"] = orig_pwd.val();
+        sdata.push(tmp1);
+        tmp2["id"] = stuId;
+        tmp2["password"] = new_pwd.val();
+        sdata.push(tmp2);
+
+        $.ajax({
+            url: "/student/service/"+stuId+"/edit-password",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(sdata),
+            success: function (data) {
+                if(data.msg == "success")
+                    $.notify("update success!", "success");
+                else
+                    $.notify(orig_pwd, "wrong password", {className: 'error', position:"right"});
+            },
+            error: function (e) {
+                alert(e.toString());
+            }
+        });
+    });
 });

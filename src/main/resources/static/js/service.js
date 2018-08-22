@@ -16,16 +16,20 @@ $(document).ready(function(){
     //    });
     //
     // });
+    // $('.schedule-checkbox').change(function () {
+    //     var btn_del = $('.btn-schedule-delete') ;
+    //     if($('input:checked').length)
+    //         btn_del.prop('disabled', false);
+    //     else
+    //         btn_del.prop('disabled', true);
+    // });
 
     $('#edit-schedule-search').click(function () {
         var dptId = $('#edit-schedule-dptlist').find(':selected').val();
         var weekday = $('#edit-schedule-weekdaylist').find(':selected').val();
 
         $('div.schedule-table').load("/admin/service/edit-schedule/" + dptId + "/" + weekday, function () {
-            if($('tr.schedule-row').length)
-                $('.btn-schedule-add').prop("disabled", false);
-            else
-                $('.btn-schedule-add').prop("disabled", true);
+            $('.btn-schedule-add').prop("disabled", false);
         });
     });
 
@@ -37,21 +41,21 @@ $(document).ready(function(){
        timeslots.push($('input.filter').val());
        // alert(dptId + '/' + weekday + '/' + timeslots);
         $.ajax({
-                    url: "/service/add-schedule/filter",
+                    url: "/admin/service/edit-schedule/filter",
                     type: "POST",
                     contentType:"application/json; charset=utf-8",
                     dataType:"json",
                     data: JSON.stringify({
                         stuId: "",
-                        dptId: dpt.find(":selected").val(),
-                        weekday: weekday.find(":selected").val(),
-                        interval: worktime.val()
+                        dptId: dptId,
+                        weekday: weekday,
+                        timeSlots: timeslots,
+                        rawSlots: ""
                     }),
                     success: function (data) {
-                        var stulist = $("#add-schedule-stuList");
+                        var stulist = $("#edit-schedule-stuList");
                         stulist.empty();
                         $.each(data, function (i, stu) {
-
                             stulist.append($("<option></option>").attr("value", stu.id).text(stu.name));
                         })
                     },
@@ -61,7 +65,81 @@ $(document).ready(function(){
                 });
     });
 
-    $('button.modal-submit').click()
+    $('button.modal-submit').click(function () {
+        var timeSlots=[];
+        var dptId = $('#edit-schedule-dptlist').find(":selected").val();
+        var weekday = $('#edit-schedule-weekdaylist').find(":selected").val();
+        var stuId = $('#edit-schedule-stuList').find(":selected").val();
+        timeSlots.push($('input.filter').val());
+        var mydata = {};
+        mydata["stuId"] = stuId;
+        mydata["dptId"] = dptId;
+        mydata["weekday"] = weekday;
+        mydata["timeSlots"] = timeSlots;
+
+        $.ajax({
+            url: "/admin/service/edit-schedule/add",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(mydata),
+            success: function () {
+                $('#edit-schedule-search').trigger('click');
+            },
+            error: function (e) {
+                alert(e);
+            }
+        });
+        // $('div.schedule-table').load('/admin/service/edit-schedule/add', JSON.stringify(mydata));
+        $('#modal-2').modal('toggle');
+    });
+
+    $('button.btn-schedule-delete').click(function () {
+        if(!$('input:checkbox').length)
+            return;
+
+        var delete_list = [];
+        var dptId = $('#edit-schedule-dptlist').find(":selected").val();
+        var weekday = $('#edit-schedule-weekdaylist').find(":selected").val();
+
+        $('tr.schedule-row').each(function () {
+            var $this = $(this);
+            var slots = $this.find('.schedule-slot');
+            // var boxes = $this.find('input:checked');
+            if(slots.find('input:checked').length) {
+                var tmp = {};
+                var times = [];
+                tmp["stuId"] = $this.find('.schedule-stuId').text();
+                tmp["dptId"] = dptId;
+                tmp["weekday"] = weekday;
+                tmp["timeSlots"] = times;
+                slots.find('input:checked').each(function () {
+                    tmp["timeSlots"].push($(this).val())
+                });
+                // slots.each(function () {
+                //     if($(this).find('input:checked').length)
+                //         $(this).remove();
+                // });
+                delete_list.push(tmp);
+            }
+        });
+
+        // alert(free_time_list);
+        $.ajax({
+            url: "/admin/service/edit-schedule/delete",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(delete_list),
+            success: function (data) {
+                $('#edit-schedule-search').trigger('click');
+                // $.notify(data.msg, "success");
+            },
+            error: function (e) {
+                alert(e.toString());
+            }
+        });
+    });
 
     // $("#add-schedule-filter-button").click(function () {
     //     var dpt = $("#add-schedule-dpt");

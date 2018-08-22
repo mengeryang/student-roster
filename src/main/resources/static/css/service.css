@@ -27,3 +27,11 @@ input.free-time-stuId {
 .hidden-info {
     display: none;
 }
+
+input.edit-password {
+    border-radius: 3px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}

@@ -44,8 +44,8 @@
                             <option th:each="wk: ${weekdayList}" th:value="${wk}" th:text="${weekdayMap.get(wk)}">weekday</option>
                         </select>
                     </div>
-                    <div class="col-lg-2 col-lg-offset-2">
-                        <button type="button" class="btn btn-primary form-control" id="edit-schedule-search">search</button>
+                    <div class="col-lg-4">
+                        <button type="button" class="btn btn-primary form-control" id="edit-schedule-search">choose schedule</button>
                     </div>
 
                 </div>
@@ -73,7 +73,7 @@
                     <tr class="bg-info">
                         <th class="col-lg-3">Student ID</th>
                         <th class="col-lg-3">Student Name</th>
-                        <th class="col-lg-6">Current Schedule</th>
+                        <th class="col-lg-6">Current Duty Time</th>
                     </tr>
                     </thead>
                 </table>
@@ -81,7 +81,7 @@
         </div>
         <div class="row col-lg-6 col-lg-offset-3">
             <button type="button" class="btn btn-success col-lg-3 col-lg-offset-2 btn-schedule-add" data-toggle="modal" data-target="#modal-2" disabled="disabled">Add</button>
-            <button type="button" class="btn btn-danger col-lg-3 col-lg-offset-2 btn-schedule-delete" disabled="disabled">Delete</button>
+            <button type="button" class="btn btn-danger col-lg-3 col-lg-offset-2 btn-schedule-delete">Delete</button>
         </div>
     </div>
 
@@ -104,16 +104,16 @@
                         <h4>Time slot to be scheduled:</h4>
                     </div>
                     <div>
-                        <input type="text" class="form-control col-lg-4 filter" placeholder="hh:mm~hh:mm"/>
+                        <input type="text" class="form-control filter" placeholder="hh:mm~hh:mm"/>
                         <button type="button" class="btn btn-primary form-control modal-filter">filter</button>
                     </div>
                     <div>
-                        <select class="form-control pre-scrollable" id="add-schedule-stuList">
+                        <select class="form-control pre-scrollable" id="edit-schedule-stuList">
                             <option th:selected="selected" th:value="'-1'">select-student</option>
                         </select>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary modal-submit" data-dismiss="modal">submit</button>
+                        <button type="button" class="btn btn-primary modal-submit">Add</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
                     </div>
                 </div>
