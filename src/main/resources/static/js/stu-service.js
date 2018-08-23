@@ -99,4 +99,45 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('button.ask-change-find').click(function () {
+        var stuId = $('.stuId').text();
+        var dptId = $('select.department').find(':selected').val();
+        var date = $('input.input-datepicker').val().replace(/\//g,"-");
+        $('div.ask-change-table').load('/student/service/'+stuId+'/ask-change/'+dptId+'/'+date);
+    })
+
+    $('#ask-change-submit').click(function () {
+        var askId = $('.stuId').text();
+        var replaceId = '';
+        var dptId = $('select.department').find(':selected').val();
+        var date = $('input.input-datepicker').val().replace(/\//g,"-");
+        var time = $('input:checked').val();
+        var comment = $('input.ask-change-comment').val();
+        var sdata = {};
+
+        sdata['askId'] = askId;
+        sdata['replaceId'] = replaceId;
+        sdata['dptId'] = dptId;
+        sdata['rawDate'] = date;
+        sdata['timeSlot'] = time;
+        sdata['comment'] = comment;
+
+        $.ajax({
+            url: "/student/service/"+ askId +"/ask-change/submit",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            data: JSON.stringify(sdata),
+            success: function (data) {
+                if(data.msg == "success")
+                    $.notify("Request Submitted", "success");
+                // else
+                //     $.notify(orig_pwd, "wrong password", {className: 'error', position:"right"});
+            },
+            error: function (e) {
+                alert('ajax error');
+            }
+        });
+    })
 });

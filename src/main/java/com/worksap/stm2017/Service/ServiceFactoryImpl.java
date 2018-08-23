@@ -9,6 +9,7 @@ public class ServiceFactoryImpl implements ServiceFactory {
     private DepartmentService departmentService;
     private RosterService rosterService;
     private LoginService loginService;
+    private LeaveService leaveService;
 
     public StudentService getStudentService() {
         return studentService;
@@ -44,5 +45,14 @@ public class ServiceFactoryImpl implements ServiceFactory {
     @Autowired
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
+    }
+
+    public LeaveService getLeaveService() {
+        return leaveService;
+    }
+
+    @Autowired
+    public void setLeaveService(LeaveService leaveService) {
+        this.leaveService = leaveService;
     }
 }

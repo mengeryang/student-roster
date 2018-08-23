@@ -142,13 +142,21 @@ public class RosterServiceImpl implements RosterService {
 //        )).collect(Collectors.toList());
     }
 
+    public void addRecChange(WorkTimeInfo workTimeInfo, Date date, int status) {
+        String stuId = workTimeInfo.getStuId();
+        String dptId = workTimeInfo.getDptId();
+        List<String> timeSlots = workTimeInfo.getTimeSlots();
+
+        timeSlots.stream().forEach(x -> recChangeDao.insert(new Schedule(stuId, dptId, "",x), date, status));
+    }
+
     public List<WorkTimeInfo> getDptSchedOfDate(String dptId, Date date) {
         //TODO
-        List<Schedule> scheduleList;
-        List<DetailInfo> resList = new ArrayList<>();
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        List<WorkTimeInfo> resList;
+//        List<DetailInfo> resList = new ArrayList<>();
+//        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String weekday;
-        String date_str = df.format(date);
+//        String date_str = df.format(date);
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         switch (c.get(Calendar.DAY_OF_WEEK)) {
@@ -168,9 +176,17 @@ public class RosterServiceImpl implements RosterService {
                 weekday = "0";
         }
 
-        return getDptSchedOfWeekday(dptId, weekday);
-
-//        if((scheduleList = recChangeDao.find(dptId, date)).isEmpty()) {
+        resList = getDptSchedOfWeekday(dptId, weekday);
+        for(WorkTimeInfo w: resList) {
+            List<String> newSlots = new ArrayList<>();
+            for(String s: w.getTimeSlots()){
+                if(!recChangeDao.isDelete(new Schedule(w.getStuId(), w.getDptId(), w.getWeekday(), s), date))
+                    newSlots.add(s);
+            }
+            w.setTimeSlots(newSlots);
+        }
+        return resList;
+//        if((scheduleList = recChangeDao.(dptId, date)).isEmpty()) {
 //            resList = getDptSchedOfWeekday(dptId, weekday);
 //            resList.stream().forEach( x -> x.setDate(date_str));
 //            return resList;

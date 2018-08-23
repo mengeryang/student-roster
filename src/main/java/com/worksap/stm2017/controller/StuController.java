@@ -22,6 +22,7 @@ public class StuController {
     private StudentService studentService;
     private DepartmentService departmentService;
     private LoginService loginService;
+    private LeaveService leaveService;
 
     @Autowired
     public StuController(ServiceFactory serviceFactory) {
@@ -29,6 +30,7 @@ public class StuController {
         this.studentService = serviceFactory.getStudentService();
         this.departmentService = serviceFactory.getDepartmentService();
         this.loginService = serviceFactory.getLoginService();
+        this.leaveService = serviceFactory.getLeaveService();
     }
 
 //    @ModelAttribute("dptlist")
@@ -142,5 +144,46 @@ public class StuController {
         }
         else
             return new Message("failed");
+    }
+
+    @RequestMapping(value = "/service/{stuId}/ask-change", method = RequestMethod.GET)
+    public String studentAskChangeShow(Model model, @PathVariable("stuId") String stuId) {
+        List<DptInfo> dptInfos = departmentService.listDptOfStu(stuId);
+
+        model.addAttribute("dpts", dptInfos);
+        model.addAttribute("stuId", stuId);
+
+        return "stu-service-ask-change";
+    }
+
+    @RequestMapping(value = "/service/{stuId}/ask-change/{dptId}/{date}", method = RequestMethod.GET)
+    public String studentAskChangeFilter(Model model,
+                                         @PathVariable("stuId") String stuId,
+                                         @PathVariable("dptId") String dptId,
+                                         @PathVariable("date") String date_str) {
+        List<WorkTimeInfo> workTimeInfos;
+        try {
+            Date date = new SimpleDateFormat("MM-dd-yyyy").parse(date_str);
+            List<String> times = new ArrayList<>();
+            workTimeInfos = rosterService.getDptSchedOfDate(dptId, date);
+            for(WorkTimeInfo info:workTimeInfos) {
+                if(info.getStuId().equals(stuId))
+                    times.addAll(info.getTimeSlots());
+            }
+            model.addAttribute("schedules", times);
+        } catch (ParseException e) {
+            workTimeInfos = new ArrayList<>();
+            System.out.println("date parse failed");
+            model.addAttribute("schedules", new ArrayList<>());
+        }
+//        workTimeInfos = rosterService.getDptSchedOfDate();
+        return "result :: ask-change-table";
+    }
+
+    @RequestMapping(value = "/service/{stuId}/ask-change/submit", method = RequestMethod.POST)
+    @ResponseBody
+    public Message studentAskChangeSubmit(@RequestBody LeaveForm form) {
+        leaveService.AddLeaveApplication(form);
+        return new Message("success");
     }
 }

@@ -1,8 +1,11 @@
 package com.worksap.stm2017.controller;
 
 import com.worksap.stm2017.Service.*;
+import com.worksap.stm2017.domain.Leave;
 import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.*;
+import com.worksap.stm2017.util.Admin;
+import com.worksap.stm2017.util.ScheduleStatus;
 import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +23,14 @@ public class AdminController {
     private DepartmentService departmentService;
     private StudentService studentService;
     private RosterService rosterService;
+    private LeaveService leaveService;
 
     @Autowired
     public AdminController(ServiceFactory serviceFactory) {
         this.departmentService = serviceFactory.getDepartmentService();
         this.studentService = serviceFactory.getStudentService();
         this.rosterService = serviceFactory.getRosterService();
+        this.leaveService = serviceFactory.getLeaveService();
     }
 
     @ModelAttribute("dptlist")
@@ -68,6 +73,7 @@ public class AdminController {
     public String home(Model model) {
         List<WorkTimeInfo> workTimeInfos = new ArrayList<>();
         List<DptInfo> dptInfos = departmentService.list_all_dpt();
+        List<LeaveInfo> leaveInfos = leaveService.listLeaveMsgForAdmin();
 
         for(DptInfo dpt: dptInfos) {
             List<WorkTimeInfo> tmpInfos = rosterService.getDptSchedOfDate(dpt.getId(), new Date());
@@ -77,7 +83,27 @@ public class AdminController {
 //        model.addAttribute("schedList", new ArrayList<>());
 
         model.addAttribute("workTimeInfos", workTimeInfos);
+        model.addAttribute("msgs", leaveInfos);
         return "admin-home";
+    }
+
+    @RequestMapping(value = "/home/reply/{msgId}/{reply}", method = RequestMethod.GET)
+    @ResponseBody
+    public Message reply(@PathVariable("msgId") String msgId, @PathVariable("reply") String reply) {
+        Leave leave;
+        WorkTimeInfo workTimeInfo;
+        List<String> tmp = new ArrayList<>();
+        if(reply.equals("accept")){
+            leaveService.updateAdminStatus(Integer.parseInt(msgId), Admin.ACCEPT);
+            leave = leaveService.findById(Integer.parseInt(msgId));
+            tmp.add(leave.getTimeSlot());
+            rosterService.addRecChange(new WorkTimeInfo(leave.getAskId(), leave.getDptId(), "", tmp,""),
+                    leave.getDate(), ScheduleStatus.DELETED);
+        }
+        else {
+            leaveService.updateAdminStatus(Integer.parseInt(msgId), Admin.DENY);
+        }
+        return new Message();
     }
 
     @RequestMapping(value = "/home/{dptId}/{date_str}", method = RequestMethod.GET)

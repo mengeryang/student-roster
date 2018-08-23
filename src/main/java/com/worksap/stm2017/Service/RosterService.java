@@ -13,4 +13,5 @@ public interface RosterService {
     List<WorkTimeInfo> getDptSchedOfDate(String dptId, Date date);
     List<WorkTimeInfo> getDptSchedOfWeekday(String dptId, String weekday);
     void deleteSchedule(WorkTimeInfo workTimeInfo);
+    void addRecChange(WorkTimeInfo workTimeInfo, Date date, int status);
 }

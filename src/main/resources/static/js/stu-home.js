@@ -9,5 +9,5 @@ $(document).ready(function () {
         var date = $('input.stu-home-datepicker').val();
         var dptId = $('select.stu-home-department').find(':selected').val();
         $('.stu-home-schedule-table').load('/student/home/'+dptId+'/'+date.replace(/\//g,"-"));
-    })
+    });
 });

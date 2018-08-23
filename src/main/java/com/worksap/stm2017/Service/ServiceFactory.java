@@ -5,4 +5,5 @@ public interface ServiceFactory {
     DepartmentService getDepartmentService();
     RosterService getRosterService();
     LoginService getLoginService();
+    LeaveService getLeaveService();
 }

@@ -43,9 +43,10 @@
                         <ul class="dropdown-menu">
                             <li><a href="#" th:href="@{/student/service/{path}/edit-password(path=${stuId})}">Edit Password</a></li>
                             <li><a href="#" th:href="@{/student/service/{path}/set-freetime(path=${stuId})}">Set free time</a></li>
-                            <li><a href="#" th:href="@{/student/service/ask-leave}">Ask for leave</a></li>
+                            <li><a href="#" th:href="@{/student/service/{path}/ask-change(path=${stuId})}">Ask for Shift</a></li>
                         </ul>
                     </li>
+                    <li><a href="#" th:href="@{/}">Log out</a></li>
                 </ul>
             </div>
         </div>

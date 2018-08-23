@@ -38,8 +38,8 @@ public class AccountDaoImpl implements AccountDao {
     public void update(Account account) {
         jdbcTemplate.update(UPDATE_SQL,
                 ps -> {
-            ps.setString(1, account.getId());
-            ps.setString(2, account.getPassword());
+            ps.setString(2, account.getId());
+            ps.setString(1, account.getPassword());
                 });
     }
 }

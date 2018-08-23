@@ -1,6 +1,7 @@
 package com.worksap.stm2017.dao;
 
 import com.worksap.stm2017.domain.Schedule;
+import com.worksap.stm2017.util.ScheduleStatus;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ public class RecChangeDaoImpl implements RecChangeDao {
     private JdbcTemplate jdbcTemplate;
 
     final static private String INSERT_SQL =
-            "INSERT INTO CHANGE_REC(stu_id,dpt_id,weekday,time_slot,rec_date) VALUES(?,?,?,?,?)";
+            "INSERT INTO CHANGE_REC(stu_id,dpt_id,weekday,time_slot,rec_date,status) VALUES(?,?,?,?,?,?)";
 
     final static private String DELETE_SQL =
             "DELETE FROM CHANGE_REC WHERE stu_id=? and dpt_id=? and time_slot=? and rec_date=?";
@@ -21,11 +22,14 @@ public class RecChangeDaoImpl implements RecChangeDao {
     final static private String FIND_REC_BY_STU_DPT_DATE_SQL =
             "SELECT time_slot FROM CHANGE_REC WHERE stu_id=? and dpt_id=? and rec_date=?";
 
+    final static private String IS_DELETE_SQL =
+            "SELECT COUNT(*) FROM CHANGE_REC WHERE stu_id=? and dpt_id=? and rec_date=? and time_slot=? and status=" + ScheduleStatus.DELETED;
+
     public RecChangeDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(Schedule schedule, Date date) {
+    public void insert(Schedule schedule, Date date, int status) {
         try {
             jdbcTemplate.update(INSERT_SQL,
                     ps -> {
@@ -34,6 +38,7 @@ public class RecChangeDaoImpl implements RecChangeDao {
                         ps.setString(3, schedule.getWeekday());
                         ps.setString(4, schedule.getTimeSlot());
                         ps.setDate(5, new java.sql.Date(date.getTime()));
+                        ps.setInt(6, status);
                     });
         } catch (DataAccessException e) {
             //TODO
@@ -49,6 +54,12 @@ public class RecChangeDaoImpl implements RecChangeDao {
             ps.setString(3, schedule.getTimeSlot());
             ps.setDate(4, new java.sql.Date(date.getTime()));
                 });
+    }
+
+    public boolean isDelete(Schedule schedule, Date date) {
+        return jdbcTemplate.queryForObject(IS_DELETE_SQL,
+                new Object[] {schedule.getStuId(), schedule.getDptId(), date, schedule.getTimeSlot()},
+                Integer.class) > 0;
     }
 
     public List<String> findRecByStuDptDate(String stuId, String dptId, Date date) {
