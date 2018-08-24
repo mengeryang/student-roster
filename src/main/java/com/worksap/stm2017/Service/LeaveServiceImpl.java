@@ -7,6 +7,7 @@ import com.worksap.stm2017.dao.StudentDao;
 import com.worksap.stm2017.domain.Leave;
 import com.worksap.stm2017.entity.LeaveForm;
 import com.worksap.stm2017.entity.LeaveInfo;
+import com.worksap.stm2017.entity.StuLeaveInfo;
 import com.worksap.stm2017.util.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,11 +63,36 @@ public class LeaveServiceImpl implements LeaveService {
             String stuName = studentDao.findName(stuId);
             String dptName = departmentDao.findName(rec.getDptId());
             String date_str = new SimpleDateFormat("MM-dd-yyyy").format(rec.getDate());
-            String tmp = stuName + "(" + stuId + ")" + " wants to ask for a leave at " +
+            String tmp = stuName + "(" + stuId + ")" + " working at " + dptName + " wants to ask for a leave at " +
                     date_str + " " + rec.getTimeSlot();
-            infoList.add(new LeaveInfo(rec.getId(), tmp));
+            infoList.add(new LeaveInfo(rec.getId(), tmp, rec.getMsg()));
         }
 
+        return infoList;
+    }
+
+    public List<StuLeaveInfo> listLeaveMsgForStu(String stuId) {
+        List<Leave> leaveList = askLeaveDao.listByAskId(stuId);
+        List<StuLeaveInfo> infoList = new ArrayList<>();
+
+        for(Leave rec: leaveList) {
+            String date_str = new SimpleDateFormat("MM-dd-yyyy").format(rec.getDate());
+            String dptName = departmentDao.findName(rec.getDptId());
+            String tmp = "Leave application for schedule (" + dptName + ": " + date_str + " " + rec.getTimeSlot() + ")";
+            String status;
+            switch(rec.getAdminStatus()){
+                case Admin.NOT_DECIDE:
+                    status = "Reviewing";
+                    break;
+                case Admin.ACCEPT:
+                    status = "Approve";
+                    break;
+                default:
+                    status = "Deny";
+            }
+            infoList.add(new StuLeaveInfo(rec.getId(),tmp,status));
+
+        }
         return infoList;
     }
 

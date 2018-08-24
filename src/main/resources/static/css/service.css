@@ -35,3 +35,12 @@ input.edit-password {
 .input-group {
     margin-bottom: 20px;
 }
+
+.ask-change-table {
+    margin-top: 30px;
+}
+
+textarea {
+    border: 1px solid #8bc34a;
+    box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, .25);
+}

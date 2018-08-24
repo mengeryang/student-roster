@@ -81,6 +81,8 @@ public class AdminController {
         }
 //        model.addAttribute("selInfo", new DetailInfo());
 //        model.addAttribute("schedList", new ArrayList<>());
+        leaveInfos.sort(Comparator.comparing(a -> a.getMsgId()));
+        Collections.reverse(leaveInfos);
 
         model.addAttribute("workTimeInfos", workTimeInfos);
         model.addAttribute("msgs", leaveInfos);

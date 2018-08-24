@@ -1,10 +1,10 @@
 .bs-calltoaction{
     position: relative;
     width:auto;
-    padding: 15px 25px;
+    padding: 5px 5px;
     border: 1px solid black;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     border-radius: 5px;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .cta-contents{
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .cta-title{
@@ -39,8 +39,8 @@
 }
 
 .cta-button{
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 @media (max-width: 991px){

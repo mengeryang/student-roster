@@ -32,21 +32,21 @@
                     <!--<input type="text" class="form-control" th:field="*{id}" placeholder="Student ID" required="required"/>-->
                 <!--</div>-->
                 <div class="row">
-                    <div class="col-lg-4">
-                        <select class="form-control pre-scrollable filter-info" id="edit-schedule-dptlist">
+                    <div class="col-lg-4 col-lg-offset-1">
+                        <select class="form-control filter-info" id="edit-schedule-dptlist">
                             <option th:selected="selected" th:value="'-1'">select-department</option>
                             <option th:each="dpt: ${dptlist}" th:value="${dpt.getId()}" th:text="${dpt.getName()}">dpt</option>
                         </select>
                     </div>
-                    <div class="col-lg-4">
-                        <select class="form-control pre-scrollable filter-info" id="edit-schedule-weekdaylist">
+                    <div class="col-lg-4 col-lg-offset-2">
+                        <select class="form-control filter-info" id="edit-schedule-weekdaylist">
                             <option th:selected="selected" th:value="'-1'">select-weekday</option>
                             <option th:each="wk: ${weekdayList}" th:value="${wk}" th:text="${weekdayMap.get(wk)}">weekday</option>
                         </select>
                     </div>
-                    <div class="col-lg-4">
-                        <button type="button" class="btn btn-primary form-control" id="edit-schedule-search">choose schedule</button>
-                    </div>
+                    <!--<div class="col-lg-4">-->
+                        <!--<button type="button" class="btn btn-primary form-control" id="edit-schedule-search">choose schedule</button>-->
+                    <!--</div>-->
 
                 </div>
 
@@ -95,46 +95,28 @@
                     &times;
                 </button>
                 <h4 class="modal-title">
-                    Add New Time Schedule
+                    Add New Schedule
                 </h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="text-align: center">
                 <div class="col-lg-6 col-lg-offset-3">
                     <div>
                         <h4>Time slot to be scheduled:</h4>
                     </div>
-                    <div>
+                    <div class="col-lg-12">
                         <input type="text" class="form-control filter" placeholder="hh:mm~hh:mm"/>
-                        <button type="button" class="btn btn-primary form-control modal-filter">filter</button>
+                        <button type="button" class="btn btn-primary col-lg-10 col-lg-offset-1 modal-filter" style="margin-top: 10px">get available students</button>
                     </div>
-                    <div>
+                    <div class="col-lg-12">
                         <select class="form-control pre-scrollable" id="edit-schedule-stuList">
                             <option th:selected="selected" th:value="'-1'">select-student</option>
                         </select>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-primary modal-submit">Add</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                    <div class="col-lg-12" style="margin-top: 10px">
+                        <button type="button" class="btn btn-primary col-lg-4 col-lg-offset-1 modal-submit">Add</button>
+                        <button type="button" class="btn btn-default col-lg-4 col-lg-offset-2" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
-                <!--<form action="#" th:action="@{/student/service/{path}/set-freetime/add(path=${stuId})}" th:object="${newFreeTimeForm}" method="post" role="form">-->
-                    <!--<h4>Weekday:</h4>-->
-
-                    <!--<select class="pre-scrollable" th:field="*{weekday}">-->
-                        <!--<option th:each="wk:${weekdayList}" th:value="${wk}" th:text="${weekdayMap.get(wk)} ">text</option>-->
-                    <!--</select>-->
-
-                    <!--<h4>Available Time Slot:</h4>-->
-                    <!--<input type="text" placeholder="hh:mm~hh:mm" th:field="*{timeSlot}"/>-->
-                    <!--&lt;!&ndash;<div class="hidden-info" style="margin-bottom: 10px">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<input type="text" th:value="${stuId}" th:field="*{stuId}" />&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--<br/>-->
-                    <!--<div>-->
-                        <!--<button type="submit" class="btn btn-primary">submit</button>-->
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>-->
-                    <!--</div>-->
-                <!--</form>-->
             </div>
             <div class="modal-footer">
 

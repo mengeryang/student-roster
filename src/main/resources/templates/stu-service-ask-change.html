@@ -28,7 +28,7 @@
 
         <div>
             <br style="clear:both"/>
-            <h3 style="margin-bottom: 25px; text-align: center;">Schedule Change Application</h3>
+            <h3 style="margin-bottom: 25px; text-align: center;">Application for Temporary Leave</h3>
             <div class="row col-lg-8 col-lg-offset-2">
                 <div class="col-lg-3">
                     <select class="form-control pre-scrollable department" title="department">
@@ -44,48 +44,24 @@
                 </div>
                 <div class="col-lg-2 col-lg-offset-2">
                     <button type="button" class="btn btn-primary btn-block ask-change-find">find</button>
+                    <a href="#" th:href="@{/student/service/{path}/ask-change(path=${stuId})}" class="btn btn-warning btn-block ask-change-reset">reset</a>
                 </div>
             </div>
             <br/>
-            <div class="ask-change-table">
+            <div class="row col-lg-10 col-lg-offset-1 ask-change-table" style="text-align: center">
 
             </div>
             <br/>
-            <div>
-                <input type="text" class="text-area ask-change-comment" />
+            <div class="row col-lg-4 col-lg-offset-4">
+                <textarea class="form-control ask-change-comment" rows="5" placeholder="comment..."></textarea>
             </div>
             <br/>
-            <div class="col-lg-2 col-lg-offset-5">
-                <button type="button" class="btn btn-lg btn-primary" id="ask-change-submit">Submit</button>
+            <div class="col-lg-2 col-lg-offset-5" style="text-align: center;margin-top: 20px">
+                <button type="button" class="btn btn-primary" id="ask-change-submit">Submit</button>
             </div>
-            <!--<div class="row stu-freetime-table">-->
-                <!--<div class="col-lg-4 col-lg-offset-4">-->
-                    <!--<table class="table table-bordered free-time-table">-->
-                        <!--<thead>-->
-                        <!--<tr class="bg-info">-->
-                            <!--<th class="col-lg-3">WeekDay</th>-->
-                            <!--<th class="col-lg-9">Available Time Slots</th>-->
-                        <!--</tr>-->
-                        <!--</thead>-->
-                        <!--<tbody>-->
-                        <!--<tr th:each="info:${freeTimeInfos}" class="free-time-row">-->
-                            <!--<td th:text="${weekdayMap.get(info.weekday)}" class="free-time-weekday"></td>-->
-                            <!--<td>-->
-                                <!--<div th:each="slot:${info.timeSlots}" class="free-time-slot">-->
-                                    <!--<span th:text="${slot}">text</span>-->
-                                    <!--<input type="checkbox" class="checkbox-inline free-time-checkbox" th:value="${slot}"/>-->
-                                <!--</div>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                        <!--</tbody>-->
-                    <!--</table>-->
-                <!--</div>-->
-            <!--</div>-->
+
         </div>
-        <!--<div class="row col-lg-4 col-lg-offset-4">-->
-            <!--<button type="button" class="btn btn-success col-lg-3 col-lg-offset-2 btn-free-time-add" data-toggle="modal" data-target="#model-1">Add</button>-->
-            <!--<button type="button" class="btn btn-danger col-lg-3 col-lg-offset-2 btn-free-time-delete" disabled="disabled">Delete</button>-->
-        <!--</div>-->
+
     </div>
 </div>
 

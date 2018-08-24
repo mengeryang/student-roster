@@ -100,8 +100,7 @@
     <!--<script src="../static/js/service.js" th:src="@{/js/service.js}"></script>-->
 </div>
 
-<div th:fragment="ask-change-table">
-    <div class="col-lg-3">
+<div th:fragment="ask-change-table" class="col-lg-4 col-lg-offset-4">
         <form>
             <table class="table table-bordered">
                 <thead>
@@ -119,8 +118,6 @@
                 </tbody>
             </table>
         </form>
-    </div>
-
 </div>
 
 <div th:fragment="admin-message-box (msgs)">
@@ -147,6 +144,7 @@
             <div class="row">
                 <div class="col-md-9 cta-contents">
                     <p th:text="${msg.msg}"></p>
+                    <a href="#" data-toggle="popover" data-th-content="${msg.comment}">comment</a>
                 </div>
                 <div class="row col-md-3">
                     <span><button type="button" class="btn btn-sm btn-success admin-reply" th:value="${msg.msgId}">accept</button></span>
@@ -155,69 +153,41 @@
             </div>
         </div>
 
-        <!--<div class="bs-calltoaction bs-calltoaction-info">-->
-        <!--<div class="row">-->
-        <!--<div class="col-md-9 cta-contents">-->
-        <!--<h1 class="cta-title">Its a Call To Action</h1>-->
-        <!--<div class="cta-desc">-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-3 cta-button">-->
-        <!--<a href="#" class="btn btn-lg btn-block btn-info">Go for It!</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
+    </div>
+</div>
 
-        <!--<div class="bs-calltoaction bs-calltoaction-success">-->
-        <!--<div class="row">-->
-        <!--<div class="col-md-9 cta-contents">-->
-        <!--<h1 class="cta-title">Its a Call To Action</h1>-->
-        <!--<div class="cta-desc">-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-3 cta-button">-->
-        <!--<a href="#" class="btn btn-lg btn-block btn-success">Go for It!</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-
+<div th:fragment="stu-message-box (msgs)">
+    <div class="col-sm-8 col-lg-offset-2 pre-scrollable message-container">
         <!--<div class="bs-calltoaction bs-calltoaction-warning">-->
         <!--<div class="row">-->
         <!--<div class="col-md-9 cta-contents">-->
-        <!--<h1 class="cta-title">Its a Call To Action</h1>-->
-        <!--<div class="cta-desc">-->
+        <!--&lt;!&ndash;<h1 class="cta-title">Its a Call To Action</h1>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="cta-desc">&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>Describe the action here.</p>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>Describe the action here.</p>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>Describe the action here.</p>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
         <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--</div>-->
         <!--</div>-->
         <!--<div class="col-md-3 cta-button">-->
-        <!--<a href="#" class="btn btn-lg btn-block btn-warning">Go for It!</a>-->
+        <!--<span><a href="#" class="btn btn-success">accept</a></span>-->
+        <!--<span><a href="#" class="btn btn-danger">deny</a></span>-->
         <!--</div>-->
         <!--</div>-->
         <!--</div>-->
 
-        <!--<div class="bs-calltoaction bs-calltoaction-danger">-->
-        <!--<div class="row">-->
-        <!--<div class="col-md-9 cta-contents">-->
-        <!--<h1 class="cta-title">Its a Call To Action</h1>-->
-        <!--<div class="cta-desc">-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--<p>Describe the action here.</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-3 cta-button">-->
-        <!--<a href="#" class="btn btn-lg btn-block btn-danger">Go for It!</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div th:each="msg:${msgs}"  th:class="'bs-calltoaction ' + ((${msg.status} == 'Deny')? 'bs-calltoaction-danger ':'') + ((${msg.status} == 'Approve')? 'bs-calltoaction-success ':'') + ((${msg.status} == 'Reviewing')? 'bs-calltoaction-warning ':'')">
+            <div class="row">
+                <div class="col-md-9 cta-contents" style="text-align: center">
+                    <p th:text="${msg.msg}"></p>
+                </div>
+                <div class="row col-md-3" style="text-align: center">
+                    <h5 th:text="${msg.status}"></h5>
+                    <!--<span><button type="button" class="btn btn-sm btn-success admin-reply" th:value="${msg.msgId}">accept</button></span>-->
+                    <!--<span><button type="button" class="btn btn-sm btn-danger admin-reply" th:value="${msg.msgId}">deny</button></span>-->
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>

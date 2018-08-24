@@ -17,7 +17,7 @@
     <!-- Custom styles for this template -->
     <link href="../static/css/navbar-fixed-top.css" th:href="@{/css/navbar-fixed-top.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css"/>
-
+    <link href="../static/css/message.css" th:href="@{/css/message.css}" rel="stylesheet" type="text/css"/>
 
 </head>
 
@@ -30,6 +30,7 @@
         <div class="h2">Roster Table</div>
         <hr/>
     </div>
+
     <form action="#" method="post">
         <div class="row">
             <div class="col-lg-3 home-select">
@@ -80,6 +81,8 @@
             </table>
         </div>
     </div>
+
+    <div th:include="result:: stu-message-box (${msgs})"></div>
 </div>
 
 <div class="hidden-info">
@@ -88,6 +91,7 @@
 
 <script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/notify.min.js" th:src="@{/js/notify.min.js}"></script>
 <script src="../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 <script src="../static/js/stu-home.js" th:src="@{/js/stu-home.js}"></script>
 </body>

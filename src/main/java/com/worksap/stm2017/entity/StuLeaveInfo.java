@@ -1,17 +1,17 @@
 package com.worksap.stm2017.entity;
 
-public class LeaveInfo {
+public class StuLeaveInfo {
     private int msgId;
     private String msg;
-    private String comment;
+    private String status;
 
-    public LeaveInfo(int msgId, String msg, String comment) {
+    public StuLeaveInfo(int msgId, String msg, String status) {
         this.msgId = msgId;
         this.msg = msg;
-        this.comment = comment;
+        this.status = status;
     }
 
-    public LeaveInfo() {
+    public StuLeaveInfo() {
     }
 
     public int getMsgId() {
@@ -30,11 +30,11 @@ public class LeaveInfo {
         this.msg = msg;
     }
 
-    public String getComment() {
-        return comment;
+    public String getStatus() {
+        return status;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

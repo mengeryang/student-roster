@@ -73,10 +73,15 @@ public class StuController {
         List<DptInfo> dptInfos = departmentService.listDptOfStu(stuId);
         List<WorkTimeInfo> workTimeInfos =
                 rosterService.getDptSchedOfDate(dptInfos.get(0).getId(), new Date());
+        List<StuLeaveInfo> msgs = leaveService.listLeaveMsgForStu(stuId);
+
+        msgs.sort(Comparator.comparing(a -> a.getMsgId()));
+        Collections.reverse(msgs);
 
         model.addAttribute("dpts", dptInfos);
         model.addAttribute("workTimeInfos", workTimeInfos);
         model.addAttribute("stuId", stuId);
+        model.addAttribute("msgs", msgs);
 
         return "stu-home";
     }

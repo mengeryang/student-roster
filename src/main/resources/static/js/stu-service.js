@@ -8,6 +8,8 @@ $(document).ready(function () {
     reverse_weekmap["Sat"] = 6;
     reverse_weekmap["Sun"] = 0;
 
+    $('a.ask-change-reset').hide();
+
     $('.free-time-checkbox').change(function () {
         var btn_del = $('.btn-free-time-delete') ;
         if($('input:checked').length)
@@ -104,16 +106,34 @@ $(document).ready(function () {
         var stuId = $('.stuId').text();
         var dptId = $('select.department').find(':selected').val();
         var date = $('input.input-datepicker').val().replace(/\//g,"-");
-        $('div.ask-change-table').load('/student/service/'+stuId+'/ask-change/'+dptId+'/'+date);
-    })
+
+        if(dptId == '-1' || date == ''){
+            $.notify($(this), "please set both department and date", "error");
+            return;
+        }
+
+        $('div.ask-change-table').load('/student/service/'+stuId+'/ask-change/'+dptId+'/'+date, function () {
+            if(!$('input:radio').length)
+                return;
+            $('select.department').prop('disabled',true);
+            $('input.input-datepicker').prop('readonly', true);
+            $('a.ask-change-reset').show();
+            $('button.ask-change-find').hide();
+        });
+    });
 
     $('#ask-change-submit').click(function () {
+        if(!$('input:checked').length) {
+            $.notify($(this), "please choose a schedule", "error");
+            return;
+        }
+
         var askId = $('.stuId').text();
         var replaceId = '';
         var dptId = $('select.department').find(':selected').val();
         var date = $('input.input-datepicker').val().replace(/\//g,"-");
         var time = $('input:checked').val();
-        var comment = $('input.ask-change-comment').val();
+        var comment = $('textarea.ask-change-comment').val();
         var sdata = {};
 
         sdata['askId'] = askId;

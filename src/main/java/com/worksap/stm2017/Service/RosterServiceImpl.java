@@ -102,6 +102,11 @@ public class RosterServiceImpl implements RosterService {
 //                intervals += (s + ";");
 //            }
 //        }
+        for(String s: workSlots) {
+            if(!Intervals.validate(s))
+                return;
+        }
+
         workSlots = Intervals.mergeList(workSlots);
         workSlots.stream().forEach( x -> scheduleDao.insert(new Schedule(stuId, dptId, weekday, x)));
 //        Schedule newSchedule = new Schedule(stuId, dptId, weekday, workSlot);
@@ -146,6 +151,11 @@ public class RosterServiceImpl implements RosterService {
         String stuId = workTimeInfo.getStuId();
         String dptId = workTimeInfo.getDptId();
         List<String> timeSlots = workTimeInfo.getTimeSlots();
+
+        for(String s: timeSlots){
+            if(!Intervals.validate(s))
+                return;
+        }
 
         timeSlots.stream().forEach(x -> recChangeDao.insert(new Schedule(stuId, dptId, "",x), date, status));
     }

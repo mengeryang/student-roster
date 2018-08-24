@@ -34,14 +34,14 @@
     <form action="#" method="post">
         <div class="row">
             <div class="col-lg-3 home-select">
-                <select class="form-control pre-scrollable home-department" title="department">
+                <select class="form-control pre-scrollable home-department home-filter" title="department">
                     <option th:selected="selected" th:value="'-1'">select-department</option>
                     <option th:each="dpt: ${dptlist}" th:value="${dpt.id}" th:text="${dpt.name}">dpt</option>
                 </select>
             </div>
             <div class="col-lg-2">
                 <div class="input-group date" data-provide="datepicker">
-                    <input type="text" class="form-control home-datepicker" placeholder="mm/dd/yyyy"/>
+                    <input type="text" class="form-control home-datepicker home-filter" placeholder="mm/dd/yyyy"/>
                     <span class="input-group-addon">
                     <i class="glyphicon glyphicon-th"></i>
                 </span>
@@ -82,13 +82,26 @@
         </div>
     </div>
 
-    <div class="col-sm-8 col-lg-offset-2 message-container">
-        <div th:include="result:: admin-message-box (${msgs})"></div>
+    <div class="col-sm-8 col-lg-offset-2 pre-scrollable message-container">
+        <div th:each="msg:${msgs}" class="bs-calltoaction bs-calltoaction-default">
+            <div class="row">
+                <div class="col-md-9 cta-contents">
+                    <p th:text="${msg.msg}"></p>
+                    <a href="#" class="btn btn-xs btn-primary" data-toggle="popover"  th:attr="data-content=${msg.comment}">message</a>
+                </div>
+                <div class="row col-md-3">
+                    <span><button type="button" class="btn btn-sm btn-success admin-reply" th:value="${msg.msgId}">accept</button></span>
+                    <span><button type="button" class="btn btn-sm btn-danger admin-reply" th:value="${msg.msgId}">deny</button></span>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 </div> <!-- /container -->
 <script src="../static/js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/notify.min.js" th:src="@{/js/notify.min.js}"></script>
 <script src="../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 <script src="../static/js/home.js" th:src="@{/js/home.js}"></script>
 </body>
