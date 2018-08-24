@@ -68,8 +68,15 @@ public class StudentServiceImpl implements StudentService {
     public void deleteFreeTime(FreeTimeInfo freeTimeInfo) {
         String weekday = freeTimeInfo.getWeekday();
         String stuId = freeTimeInfo.getStuId();
+        List<String> schedules = scheduleDao.findStuSchedOfDay(stuId, weekday);
 
         freeTimeInfo.getTimeSlots().forEach(x -> freeTimeDao.delete(new FreeTime(stuId, weekday, x)));
+        for(String s: schedules) {
+            for(String f: freeTimeInfo.getTimeSlots()) {
+                if(Intervals.isAinB(s, f))
+                    scheduleDao.deleteBySlotDay(stuId, s, weekday);
+            }
+        }
     }
 
     public FreeTimeInfo listFreeTimeOfDay(String stuId, String weekday) {

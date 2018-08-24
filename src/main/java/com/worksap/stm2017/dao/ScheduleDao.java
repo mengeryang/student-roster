@@ -9,9 +9,6 @@ public interface ScheduleDao {
     void insert(Schedule schedule);
     void delete(Schedule schedule);
     List<String> findStuDaySchedOfDpt(String stuId, String dptId, String weekday);
-//    void delete(StuDptRel rel, String weekday);
-//    List<Schedule> list(String dptId, String weekday);
-//    String findStuDaySchedOfDpt(StuDptRel rel, String weekday);
-//    void updateStuDaySchedOfDpt(Schedule schedule);
     List<String> findStuSchedOfDay(String stuId, String weekday);
+    void deleteBySlotDay(String stuId, String slot, String weekday);
 }

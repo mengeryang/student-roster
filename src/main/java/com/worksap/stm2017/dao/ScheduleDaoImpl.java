@@ -19,8 +19,12 @@ public class ScheduleDaoImpl implements ScheduleDao {
     final static private String DELETE_SQL =
             "DELETE FROM SCHEDULE WHERE stu_id=? and dpt_id=? and weekday=? and time_slot=?";
 
+    final static private String DELETE_BY_SLOT_DAY =
+            "DELETE FROM SCHEDULE WHERE stu_id=? and weekday=? and time_slot=?";
+
     final static private String LIST_BY_STU_DPT_DAY_SQL =
             "SELECT time_slot FROM SCHEDULE WHERE stu_id=? and dpt_id=? and weekday=?";
+
 
 //    final static private String FIND_STU_SCHED_OF_DPT_SQL =
 //            "SELECT time_slot FROM SCHEDULE WHERE dpt_id=? and stu_id=? and weekday=?";
@@ -58,6 +62,15 @@ public class ScheduleDaoImpl implements ScheduleDao {
                     ps.setString(2, schedule.getDptId());
                     ps.setString(3, schedule.getWeekday());
                     ps.setString(4, schedule.getTimeSlot());
+                });
+    }
+
+    public void deleteBySlotDay(String stuId, String slot, String weekday) {
+        jdbcTemplate.update(DELETE_BY_SLOT_DAY,
+                ps -> {
+            ps.setString(1, stuId);
+            ps.setString(2, weekday);
+            ps.setString(3, slot);
                 });
     }
 
