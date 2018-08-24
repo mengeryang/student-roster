@@ -7,6 +7,7 @@ import com.worksap.stm2017.domain.Student;
 import com.worksap.stm2017.entity.DetailInfo;
 import com.worksap.stm2017.entity.WorkTimeInfo;
 import com.worksap.stm2017.util.Intervals;
+import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class RosterServiceImpl implements RosterService {
     private FreeTimeDao freeTimeDao;
     private ScheduleDao scheduleDao;
     private RecChangeDao recChangeDao;
+    private SettingDao settingDao;
 
     @Autowired
     public RosterServiceImpl(DaoFactory daoFactory) {
@@ -32,6 +34,7 @@ public class RosterServiceImpl implements RosterService {
         this.freeTimeDao = daoFactory.getFreeTimeDao();
         this.scheduleDao = daoFactory.getScheduleDao();
         this.recChangeDao = daoFactory.getRecChangeDao();
+        this.settingDao = daoFactory.getSettingDao();
     }
 
     public List<Student> getAvailableStu(WorkTimeInfo info) {
@@ -52,6 +55,9 @@ public class RosterServiceImpl implements RosterService {
             List<String> idle_slots = freeTimeDao.findByDay(stuId, weekday);
             List<String> work_slots = scheduleDao.findStuSchedOfDay(stuId, info.getWeekday());
             boolean available = true;
+
+            if(!underWorkloadAfterAdd(stuId, target_slots))
+                continue;
 
             for(String target_slot: target_slots) {
                 for (String s : work_slots) {
@@ -227,6 +233,36 @@ public class RosterServiceImpl implements RosterService {
 //                workTimeInfo.getDptId(),
 //                workTimeInfo.getWeekday(),
 //                workTimeInfo.getInterval()));
+    }
+
+    public int currentWorkload(String stuId) {
+        List<String> stuWorkSlots = new ArrayList<>();
+        int res = 0;
+
+        for(String day: WeekDay.WEEKDAYS) {
+            stuWorkSlots.addAll(scheduleDao.findStuSchedOfDay(stuId, day));
+        }
+
+        for(String s: stuWorkSlots)
+            res += Intervals.interval_m(s);
+
+        return res;
+    }
+
+    public boolean underWorkload(String stuId) {
+        int max_workload = settingDao.getWorkload();
+
+        return currentWorkload(stuId) <= max_workload;
+    }
+
+    public boolean underWorkloadAfterAdd(String stuId, List<String> newslots) {
+        int max_workload = settingDao.getWorkload();
+        int res = currentWorkload(stuId);
+
+        for(String s: newslots)
+            res += Intervals.interval_m(s);
+
+        return res <= max_workload;
     }
 
 }

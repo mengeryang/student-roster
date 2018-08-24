@@ -6,4 +6,5 @@ public interface ServiceFactory {
     RosterService getRosterService();
     LoginService getLoginService();
     LeaveService getLeaveService();
+    SettingService getSettingService();
 }

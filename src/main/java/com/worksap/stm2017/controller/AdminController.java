@@ -24,6 +24,7 @@ public class AdminController {
     private StudentService studentService;
     private RosterService rosterService;
     private LeaveService leaveService;
+    private SettingService settingService;
 
     @Autowired
     public AdminController(ServiceFactory serviceFactory) {
@@ -31,6 +32,7 @@ public class AdminController {
         this.studentService = serviceFactory.getStudentService();
         this.rosterService = serviceFactory.getRosterService();
         this.leaveService = serviceFactory.getLeaveService();
+        this.settingService = serviceFactory.getSettingService();
     }
 
     @ModelAttribute("dptlist")
@@ -106,6 +108,34 @@ public class AdminController {
             leaveService.updateAdminStatus(Integer.parseInt(msgId), Admin.DENY);
         }
         return new Message();
+    }
+
+    @RequestMapping(value = "/setting", method = RequestMethod.GET)
+    public String settingShow(Model model) {
+        SettingInfo settingInfo = new SettingInfo();
+        settingInfo.setWorkload(Integer.toString(settingService.getWorkload()));
+        if(settingService.getSetFree())
+            settingInfo.setSetfree("disable");
+        else
+            settingInfo.setSetfree("enable");
+
+        model.addAttribute("setting", settingInfo);
+        return "admin-settings";
+    }
+
+    @RequestMapping(value = "/setting/toggle-free", method = RequestMethod.GET)
+    @ResponseBody
+    public Message toggleSetFree() {
+        settingService.setSetFree(!settingService.getSetFree());
+        return new Message("Success");
+    }
+
+    @RequestMapping(value = "/setting/workload/{workload}", method = RequestMethod.GET)
+    @ResponseBody
+    public Message updateWordload(@PathVariable("workload") String workload_str) {
+        int workload = Integer.parseInt(workload_str);
+        settingService.setWorkload(workload);
+        return new Message("Success");
     }
 
     @RequestMapping(value = "/home/{dptId}/{date_str}", method = RequestMethod.GET)

@@ -23,6 +23,7 @@ public class StuController {
     private DepartmentService departmentService;
     private LoginService loginService;
     private LeaveService leaveService;
+    private SettingService settingService;
 
     @Autowired
     public StuController(ServiceFactory serviceFactory) {
@@ -31,6 +32,7 @@ public class StuController {
         this.departmentService = serviceFactory.getDepartmentService();
         this.loginService = serviceFactory.getLoginService();
         this.leaveService = serviceFactory.getLeaveService();
+        this.settingService = serviceFactory.getSettingService();
     }
 
 //    @ModelAttribute("dptlist")
@@ -105,6 +107,9 @@ public class StuController {
     @RequestMapping(value = "/service/{stuId}/set-freetime", method = RequestMethod.GET)
     public String studentSetFreetime(Model model, @PathVariable("stuId") String stuId) {
         List<FreeTimeInfo> freeTimeInfos = studentService.listFreeTime(stuId);
+
+        if(!settingService.getSetFree())
+            return "redirect:/student/home/"+stuId;
 
         model.addAttribute("freeTimeInfos", freeTimeInfos);
         model.addAttribute("stuId", stuId);

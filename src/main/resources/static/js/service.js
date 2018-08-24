@@ -90,10 +90,15 @@ $(document).ready(function(){
     });
 
     $('button.btn-schedule-add').click(function () {
+        $('input.filter').prop('readonly', false);
         $('input.filter').val('');
         $('#edit-schedule-stuList').empty();
         $('#edit-schedule-stuList').append($("<option></option>").attr("value", '-1').text('select-student'));
     });
+
+    $('button.add-student-submit').click(function () {
+        $.notify( "Add Success", "success")
+    })
 
     $('button.modal-submit').click(function () {
 

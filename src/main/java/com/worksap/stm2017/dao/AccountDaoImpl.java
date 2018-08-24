@@ -2,6 +2,7 @@ package com.worksap.stm2017.dao;
 
 import com.worksap.stm2017.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,11 +23,15 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     public void insert(Account account) {
-        jdbcTemplate.update(INSERT_SQL,
-                ps -> {
-            ps.setString(1, account.getId());
-            ps.setString(2, account.getPassword());
-                });
+        try {
+            jdbcTemplate.update(INSERT_SQL,
+                    ps -> {
+                        ps.setString(1, account.getId());
+                        ps.setString(2, account.getPassword());
+                    });
+        } catch (DataAccessException e) {
+
+        }
     }
 
     public int matchCount(Account account) {

@@ -1,5 +1,6 @@
 package com.worksap.stm2017.util;
 
+import java.text.ParseException;
 import java.util.*;
 import java.util.regex.PatternSyntaxException;
 
@@ -8,7 +9,7 @@ public class Intervals {
         String[] intervalList = intervals.split(";");
 
         for(String interval: intervalList) {
-            String[] hms_str = interval.split("[:~]");
+            String[] hms_str = interval.split("[:~ ]");
             Integer[] hms = new Integer[4];
 
             if(hms_str.length != 4)
@@ -17,7 +18,7 @@ public class Intervals {
             for(int i = 0; i < 4; i++) {
                 try {
                     hms[i] = Integer.parseInt(hms_str[i]);
-                } catch (PatternSyntaxException e) {
+                } catch (NumberFormatException e) {
                     return false;
                 }
             }
@@ -42,7 +43,7 @@ public class Intervals {
     }
 
     public static String format(String interval) {
-        String[] part = interval.split("[~:]");
+        String[] part = interval.split("[~: ]");
         return String.format("%02d:%02d~%02d:%02d", Integer.parseInt(part[0]), Integer.parseInt(part[1]),
                 Integer.parseInt(part[2]), Integer.parseInt(part[3]));
     }
@@ -78,8 +79,8 @@ public class Intervals {
     }
 
     public static boolean isOverlap(final String interval_a, final String interval_b) {
-        String[] part_a = interval_a.split("[~:]");
-        String[] part_b = interval_b.split("[~:]");
+        String[] part_a = interval_a.split("[~: ]");
+        String[] part_b = interval_b.split("[~: ]");
 
         return !((Integer.parseInt(part_a[0])*100 + Integer.parseInt(part_a[1]) >
                 Integer.parseInt(part_b[2])*100 + Integer.parseInt(part_b[3])) ||
@@ -88,13 +89,19 @@ public class Intervals {
     }
 
     public static boolean isAinB(final String interval_a, final String interval_b) {
-        String[] part_a = interval_a.split("[~:]");
-        String[] part_b = interval_b.split("[~:]");
+        String[] part_a = interval_a.split("[~: ]");
+        String[] part_b = interval_b.split("[~: ]");
 
         return (Integer.parseInt(part_a[0])*100 + Integer.parseInt(part_a[1]) >=
                 Integer.parseInt(part_b[0])*100 + Integer.parseInt(part_b[1])) &&
                 (Integer.parseInt(part_a[2])*100 + Integer.parseInt(part_a[3]) <=
                 Integer.parseInt(part_b[2])*100 + Integer.parseInt(part_b[3]));
+    }
+
+    public static int interval_m(final String itvl) {
+        String[] part = itvl.split("[~: ]");
+
+        return Integer.parseInt(part[2]) * 60 + Integer.parseInt(part[3]) - Integer.parseInt(part[0]) * 60 - Integer.parseInt(part[1]);
     }
 
     private static boolean valid_h(int h) {

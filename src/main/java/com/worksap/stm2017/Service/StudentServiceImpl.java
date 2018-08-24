@@ -1,14 +1,8 @@
 package com.worksap.stm2017.Service;
 
 import com.worksap.stm2017.dao.*;
-import com.worksap.stm2017.domain.Account;
-import com.worksap.stm2017.domain.FreeTime;
-import com.worksap.stm2017.domain.StuDptRel;
-import com.worksap.stm2017.domain.Student;
-import com.worksap.stm2017.entity.FreeTimeInfo;
-import com.worksap.stm2017.entity.LoginInfo;
-import com.worksap.stm2017.entity.StuInfo;
-import com.worksap.stm2017.entity.StuRegForm;
+import com.worksap.stm2017.domain.*;
+import com.worksap.stm2017.entity.*;
 import com.worksap.stm2017.util.Intervals;
 import com.worksap.stm2017.util.WeekDay;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +19,8 @@ public class StudentServiceImpl implements StudentService {
     private StuDptRelDao stuDptRelDao;
     private FreeTimeDao freeTimeDao;
     private AccountDao accountDao;
+    private ScheduleDao scheduleDao;
+    private SettingDao settingDao;
 
     @Autowired
     public StudentServiceImpl(DaoFactory daoFactory) {
@@ -32,6 +28,8 @@ public class StudentServiceImpl implements StudentService {
         this.stuDptRelDao = daoFactory.getStuDptRelDao();
         this.freeTimeDao = daoFactory.getFreeTimeDao();
         this.accountDao = daoFactory.getAccountDao();
+        this.scheduleDao = daoFactory.getScheduleDao();
+        this.settingDao = daoFactory.getSettingDao();
     }
 
     public void register(StuRegForm stuRegForm) {
@@ -95,4 +93,6 @@ public class StudentServiceImpl implements StudentService {
 
         return res;
     }
+
+
 }

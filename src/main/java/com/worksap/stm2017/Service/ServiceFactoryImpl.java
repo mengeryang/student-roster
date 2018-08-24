@@ -10,6 +10,7 @@ public class ServiceFactoryImpl implements ServiceFactory {
     private RosterService rosterService;
     private LoginService loginService;
     private LeaveService leaveService;
+    private SettingService settingService;
 
     public StudentService getStudentService() {
         return studentService;
@@ -54,5 +55,14 @@ public class ServiceFactoryImpl implements ServiceFactory {
     @Autowired
     public void setLeaveService(LeaveService leaveService) {
         this.leaveService = leaveService;
+    }
+
+    public SettingService getSettingService() {
+        return settingService;
+    }
+
+    @Autowired
+    public void setSettingService(SettingService settingService) {
+        this.settingService = settingService;
     }
 }

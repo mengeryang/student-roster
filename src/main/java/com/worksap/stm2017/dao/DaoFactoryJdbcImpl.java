@@ -15,6 +15,7 @@ public class DaoFactoryJdbcImpl implements DaoFactory {
     private AccountDao accountDao;
     private AdminDao adminDao;
     private AskLeaveDao askLeaveDao;
+    private SettingDao settingDao;
 
     public DepartmentDao getDepartmentDao() {
         return departmentDao;
@@ -95,5 +96,14 @@ public class DaoFactoryJdbcImpl implements DaoFactory {
     @Autowired
     public void setAskLeaveDao(AskLeaveDao askLeaveDao) {
         this.askLeaveDao = askLeaveDao;
+    }
+
+    public SettingDao getSettingDao() {
+        return settingDao;
+    }
+
+    @Autowired
+    public void setSettingDao(SettingDao settingDao) {
+        this.settingDao = settingDao;
     }
 }

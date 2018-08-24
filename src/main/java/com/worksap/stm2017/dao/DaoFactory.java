@@ -10,4 +10,5 @@ public interface DaoFactory {
     AccountDao getAccountDao();
     AdminDao getAdminDao();
     AskLeaveDao getAskLeaveDao();
+    SettingDao getSettingDao();
 }
